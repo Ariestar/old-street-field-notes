@@ -29,7 +29,8 @@ export function MapLegend({
               className={`flex w-full items-center gap-2.5 text-left transition-opacity ${on ? 'opacity-100' : 'opacity-35'}`}
             >
               <svg width="26" height="8" className="shrink-0">
-                <path d="M1 4 C 8 1, 18 7, 25 4" stroke={r.color} strokeWidth="2" fill="none" strokeLinecap="round" />
+                <circle cx="4" cy="4" r="3" fill={r.color} stroke="#3A372F" strokeWidth="0.8" />
+                <circle cx="22" cy="4" r="3" fill={r.color} stroke="#3A372F" strokeWidth="0.8" />
               </svg>
               <span className="font-serif-sc text-[12.5px] font-medium text-[#1B1B1B]">{r.name}</span>
               <span className="font-mono text-[8px] tracking-[0.14em] text-[#A8A296]">

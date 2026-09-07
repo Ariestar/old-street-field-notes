@@ -6,7 +6,7 @@ import { ROUTES } from './data/routes';
 import type { RouteId } from './data/types';
 import { PAPER_MAP_STYLE } from './styles/paperMapStyle';
 import { useMapLibre } from './hooks/useMapLibre';
-import { Hero } from './components/Hero';
+import { ScrollCover } from './components/ScrollCover';
 import { MapLayers } from './components/MapLayers';
 import { MapHUD } from './components/MapHUD';
 import { MapControls } from './components/MapControls';
@@ -28,35 +28,9 @@ export default function App() {
   const [playing, setPlaying] = useState(false);
   const [progressLabel, setProgressLabel] = useState('');
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
-  // 地图控件是否浮现：卷轴展开完成后即刻浮现
-  const [unrolled, setUnrolled] = useState(false);
-  // 顶部控件簇的下探量：停靠在刊头带下方，随滚动滑升回导航下沿
-  const [dockOffset, setDockOffset] = useState(160);
   const playerRef = useRef<WalkPlayer | null>(null);
   const mapRef = useRef<MLMap | null>(null);
   const sectionMapRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLElement | null>(null);
-
-  const measureDock = useCallback(() => {
-    const r = heroRef.current?.getBoundingClientRect();
-    if (!r || r.width === 0) return;
-    // 刊头带底缘 + 余量（下杆轴头再下探约 13px），换算成相对 72px（导航下沿）的位移；滚过后归零
-    setDockOffset(Math.max(0, r.bottom + 20 - 72));
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('scroll', measureDock, { passive: true });
-    window.addEventListener('resize', measureDock);
-    // 展开动画期间高度持续变化，用 ResizeObserver 跟随
-    const ro = new ResizeObserver(measureDock);
-    if (heroRef.current) ro.observe(heroRef.current);
-    measureDock();
-    return () => {
-      window.removeEventListener('scroll', measureDock);
-      window.removeEventListener('resize', measureDock);
-      ro.disconnect();
-    };
-  }, [measureDock]);
 
   const { map } = useMapLibre(mapContainerRef, PAPER_MAP_STYLE, (m) => {
     mapRef.current = m;
@@ -207,23 +181,12 @@ export default function App() {
               onNodeClick={handleNodeClick}
               onNodeHover={setHoverId}
             />
-            {/* 地图控件：卷轴展开后浮现；顶部簇停靠在刊头带下缘，随滚动滑升 */}
+            {/* 地图控件：地图控件常显（画卷覆盖在上，不拦截地图交互） */}
             <div
-              className={`pointer-events-none absolute inset-0 z-20 transition-opacity duration-700 [&_a]:pointer-events-auto [&_button]:pointer-events-auto ${
-                unrolled ? 'opacity-100' : 'opacity-0 [&_*]:!pointer-events-none'
-              }`}
+              className="pointer-events-none absolute inset-0 z-20 [&_a]:pointer-events-auto [&_button]:pointer-events-auto"
             >
-              <div
-                className="absolute inset-x-0 top-[72px] transition-transform duration-150 ease-out"
-                style={{ transform: `translateY(${dockOffset}px)` }}
-              >
-                <div className="absolute right-4 top-0">
-                  <MapControls map={map} onReset={resetView} />
-                </div>
-                <div className="absolute left-4 top-0">
-                  <MapHUD activeRoute={activeRoute} />
-                </div>
-              </div>
+              <MapHUD activeRoute={activeRoute} />
+              <MapControls map={map} onReset={resetView} />
               <MapLegend activeRoute={activeRoute} onHoverRoute={setActiveRoute} />
               {/* 底部筛选 + 播放 */}
               <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2.5">
@@ -238,10 +201,8 @@ export default function App() {
 
       {/* ── 滚动内容层（容器穿透地图事件，内容段自行恢复交互） ── */}
       <div className="pointer-events-none relative z-10">
-        <Hero innerRef={heroRef} onUnrolled={() => setUnrolled(true)} />
-
-        {/* 地图独占滚动段（保持可见，内容挖空；130svh 保证有一段纯地图满屏时刻） */}
-        <section ref={sectionMapRef} className="pointer-events-none h-[130svh]" aria-hidden />
+        {/* 地图独占段：首屏即整幅地图，画卷展毕自然让位 */}
+        <section ref={sectionMapRef} className="pointer-events-none h-[100svh]" aria-hidden />
 
         {/* ── 档案总表 ── */}
         <section id="archive" className="pointer-events-auto relative bg-[#F3F0E8]">
@@ -271,6 +232,9 @@ export default function App() {
         index={selectedIndex >= 0 ? STREETS[selectedIndex].order : 0}
         total={STREETS.length}
       />
+
+      {/* ── 卷首开卷（覆盖层，展毕自行卸载） ── */}
+      <ScrollCover />
     </div>
   );
 }
@@ -297,7 +261,8 @@ function ArchiveIndex({ onOpen }: { onOpen: (id: string) => void }) {
           <div key={r.id}>
             <div className="flex items-center gap-4 border-b border-[#D8D2C4] bg-[#EFE9DC] px-4 py-2.5">
               <svg width="26" height="8" className="shrink-0">
-                <path d="M1 4 C 8 1, 18 7, 25 4" stroke={r.color} strokeWidth="2" fill="none" strokeLinecap="round" />
+                <circle cx="4" cy="4" r="3" fill={r.color} stroke="#3A372F" strokeWidth="0.8" />
+                <circle cx="22" cy="4" r="3" fill={r.color} stroke="#3A372F" strokeWidth="0.8" />
               </svg>
               <span className="font-serif-sc text-[14px] font-bold">{r.name}</span>
               <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#77736A]">{r.en}</span>

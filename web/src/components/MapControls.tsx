@@ -21,8 +21,7 @@ export function MapControls({ map, onReset }: { map: MLMap; onReset: () => void 
   }, [map]);
 
   return (
-    /* 定位由 App 的停靠簇包裹层负责，这里只管纵向排列 */
-    <div className="z-20 flex flex-col items-end gap-2">
+    <div className="absolute right-4 top-[68px] z-20 flex flex-col items-end gap-2">
       <div ref={navRef} className="[&_.maplibregl-ctrl]:!m-0" />
       <button
         onClick={onReset}

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { Map as MLMap } from 'maplibre-gl';
-import { STREETS, streetById } from '../data/streets';
-import { ROUTES } from '../data/routes';
+import { STREETS } from '../data/streets';
+import { routeById } from '../data/routes';
 import type { RouteId } from '../data/types';
 
 export interface MapLayersProps {
@@ -17,39 +17,6 @@ export interface MapLayersProps {
 }
 
 const NODE_SRC = 'streets-nodes';
-const ROUTE_SRC = 'walk-routes';
-
-/** 生成带轻微手工折点的路线 GeoJSON（贝塞尔近似：在两站间插入缓弯） */
-function routeFeature(streetIds: string[], routeId: RouteId, color: string) {
-  const pts = streetIds.map((id) => streetById(id).coord);
-  // Catmull-Rom → 折线密集采样，让路线有手绘弧度
-  const curve: [number, number][] = [];
-  for (let i = 0; i < pts.length - 1; i++) {
-    const p0 = pts[Math.max(0, i - 1)];
-    const p1 = pts[i];
-    const p2 = pts[i + 1];
-    const p3 = pts[Math.min(pts.length - 1, i + 2)];
-    const segments = 48;
-    for (let t = 0; t < 1; t += 1 / segments) {
-      const t2 = t * t;
-      const t3 = t2 * t;
-      const lng =
-        0.5 *
-        (2 * p1[0] + (-p0[0] + p2[0]) * t + (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * t2 + (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * t3);
-      const lat =
-        0.5 *
-        (2 * p1[1] + (-p0[1] + p2[1]) * t + (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * t2 + (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * t3);
-      curve.push([lng, lat]);
-    }
-  }
-  curve.push(pts[pts.length - 1]);
-  return {
-    type: 'Feature' as const,
-    id: routeId,
-    properties: { route: routeId, color },
-    geometry: { type: 'LineString' as const, coordinates: curve },
-  };
-}
 
 export function MapLayers({
   map,
@@ -63,37 +30,6 @@ export function MapLayers({
 
   // ---------- 数据源 & 图层（一次建立） ----------
   useEffect(() => {
-    if (!map.hasImage('node-dot')) {
-      // 程序生成节点贴图：暖纸底 + 墨圈
-      const size = 64;
-      const data = new Uint8Array(size * size * 4);
-      const c = size / 2;
-      for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
-          const dx = x - c + 0.5;
-          const dy = y - c + 0.5;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          const i = (y * size + x) * 4;
-          if (d <= 15) {
-            // 实心暗红核心
-            data[i] = 0x8b; data[i + 1] = 0x2f; data[i + 2] = 0x2f; data[i + 3] = 255;
-          } else if (d <= 19) {
-            // 纸色描边
-            data[i] = 0xf1; data[i + 1] = 0xed; data[i + 2] = 0xe2; data[i + 3] = 255;
-          } else if (d <= 22) {
-            // 墨圈
-            data[i] = 0x3a; data[i + 1] = 0x37; data[i + 2] = 0x2f; data[i + 3] = 200;
-          } else if (d <= 30) {
-            const alpha = Math.max(0, 1 - (d - 22) / 8) * 90;
-            data[i] = 0x8b; data[i + 1] = 0x2f; data[i + 2] = 0x2f; data[i + 3] = alpha;
-          } else {
-            data[i + 3] = 0;
-          }
-        }
-      }
-      map.addImage('node-dot', { width: size, height: size, data });
-    }
-
     if (!map.getSource(NODE_SRC)) {
       map.addSource(NODE_SRC, {
         type: 'geojson',
@@ -107,6 +43,7 @@ export function MapLayers({
               name: s.name,
               order: s.order,
               route: s.route,
+              color: routeById(s.route as RouteId).color,
               categories: s.categories.join(','),
               province: s.province,
             },
@@ -116,57 +53,6 @@ export function MapLayers({
       });
     }
 
-    if (!map.getSource(ROUTE_SRC)) {
-      map.addSource(ROUTE_SRC, {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: ROUTES.map((r) => routeFeature(r.streetIds, r.id, r.color)),
-        },
-      });
-    }
-
-    if (!map.getLayer('route-glow')) {
-      map.addLayer({
-        id: 'route-glow',
-        type: 'line',
-        source: ROUTE_SRC,
-        layout: { 'line-cap': 'round', 'line-join': 'round' },
-        paint: {
-          'line-color': ['get', 'color'],
-          'line-width': ['interpolate', ['linear'], ['zoom'], 4, 8, 10, 14],
-          'line-opacity': 0.1,
-          'line-blur': 6,
-        },
-      });
-    }
-    if (!map.getLayer('route-dash')) {
-      map.addLayer({
-        id: 'route-dash',
-        type: 'line',
-        source: ROUTE_SRC,
-        layout: { 'line-cap': 'round', 'line-join': 'round' },
-        paint: {
-          'line-color': ['get', 'color'],
-          'line-width': ['interpolate', ['linear'], ['zoom'], 4, 1.6, 10, 3],
-          'line-opacity': 0.55,
-          'line-dasharray': [3, 2.5],
-        },
-      });
-    }
-    if (!map.getLayer('route-solid')) {
-      map.addLayer({
-        id: 'route-solid',
-        type: 'line',
-        source: ROUTE_SRC,
-        layout: { 'line-cap': 'round', 'line-join': 'round' },
-        paint: {
-          'line-color': ['get', 'color'],
-          'line-width': ['interpolate', ['linear'], ['zoom'], 4, 2, 10, 3.6, 13, 5],
-          'line-opacity': 0.92,
-        },
-      });
-    }
     if (!map.getLayer('node-halo')) {
       map.addLayer({
         id: 'node-halo',
@@ -174,7 +60,7 @@ export function MapLayers({
         source: NODE_SRC,
         paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 6, 8, 10, 12, 18],
-          'circle-color': '#8B2F2F',
+          'circle-color': ['get', 'color'],
           'circle-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.25, 0.12],
           'circle-blur': 0.6,
         },
@@ -201,9 +87,7 @@ export function MapLayers({
             4, ['case', ['boolean', ['feature-state', 'hover'], false], 6.5, 4.5],
             8, ['case', ['boolean', ['feature-state', 'hover'], false], 9.5, 6.5],
             12, ['case', ['boolean', ['feature-state', 'hover'], false], 16, 11]],
-          'circle-color': ['case',
-            ['boolean', ['feature-state', 'selected'], false], '#B89B67',
-            '#8B2F2F'],
+          'circle-color': ['get', 'color'],
           'circle-stroke-width': 1.4,
           'circle-stroke-color': '#3A372F',
         },
@@ -302,19 +186,7 @@ export function MapLayers({
     });
   }, [selectedId, map]);
 
-  // 路线筛选可见性
-  useEffect(() => {
-    const filterFor = (visibleRoutes: RouteId[] | null) =>
-      visibleRoutes
-        ? ['in', ['get', 'route'], ['literal', visibleRoutes]]
-        : ['all'];
-    const vis = activeRoute ? [activeRoute] : null;
-    ['route-glow', 'route-dash', 'route-solid'].forEach((layer) => {
-      if (map.getLayer(layer)) map.setFilter(layer, filterFor(vis) as never);
-    });
-  }, [activeRoute, map]);
-
-  // 节点随路线筛选淡出
+  // 节点随路线筛选显隐
   useEffect(() => {
     const vis = activeRoute ? [activeRoute] : null;
     const filter = vis
