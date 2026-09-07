@@ -1,0 +1,16 @@
+# Node / build
+node_modules/
+dist/
+*.log
+.playwright-mcp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Claude local
+.claude/
+
+# 原始调研素材（体积过大，仅本地留存）
+调研成果/

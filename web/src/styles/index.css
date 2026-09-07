@@ -1,0 +1,152 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+@theme {
+  --font-serif-sc: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-sans: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+
+  --color-paper: #F3F0E8;
+  --color-paper-deep: #EAE5D8;
+  --color-paper-warm: #EFE9DC;
+  --color-ink: #1B1B1B;
+  --color-ink-soft: #3A372F;
+  --color-muted: #77736A;
+  --color-faint: #A8A296;
+  --color-vermilion: #8B2F2F;
+  --color-vermilion-deep: #6E2323;
+  --color-gold: #B89B67;
+  --color-seal: #A63D2F;
+  --color-line: #D8D2C4;
+  --color-line-dark: #C4BCA8;
+
+  --ease-documentary: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(139, 47, 47, 0.85);
+  color: #F3F0E8;
+}
+
+/* ---- custom scrollbar, archive style ---- */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-paper); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-dark);
+  border: 3px solid var(--color-paper);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
+
+/* ---- maplibre overrides: kill default chrome ---- */
+/* .maplibregl-map 自带 position:relative（未分层，优先级高于 Tailwind utilities），
+   会破坏 App 里 fixed/absolute 布局 —— 强制还原 */
+.maplibregl-map.map-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.maplibregl-ctrl-group {
+  background: rgba(243, 240, 232, 0.92) !important;
+  border: 1px solid var(--color-line-dark) !important;
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 rgba(27,27,27,0.12) !important;
+  overflow: hidden;
+}
+.maplibregl-ctrl-group button {
+  width: 34px !important;
+  height: 34px !important;
+}
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--color-line) !important;
+}
+.maplibregl-ctrl-group button span {
+  filter: grayscale(1) sepia(0.35) brightness(0.5) !important;
+}
+.maplibregl-ctrl-attrib {
+  background: rgba(243, 240, 232, 0.75) !important;
+  font-family: var(--font-mono);
+  font-size: 9px !important;
+  color: var(--color-faint) !important;
+}
+.maplibregl-ctrl-attrib a { color: var(--color-faint) !important; }
+.maplibregl-ctrl-scale {
+  background: rgba(243,240,232,0.7) !important;
+  border-color: var(--color-muted) !important;
+  color: var(--color-muted) !important;
+  font-family: var(--font-mono);
+  font-size: 9px !important;
+}
+.maplibregl-popup-content { padding: 0 !important; }
+.maplibregl-popup-tip { display: none; }
+
+/* ---- paper grain overlay ---- */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  mix-blend-mode: multiply;
+}
+
+/* ---- archival image treatment ---- */
+.photo-archival {
+  filter: sepia(0.14) saturate(0.82) contrast(0.98) brightness(1.01);
+  transition: filter 0.8s var(--ease-documentary);
+}
+.photo-archival:hover { filter: sepia(0) saturate(1) contrast(1); }
+
+/* ---- fine ruled lines ---- */
+.rule-h { height: 1px; background: var(--color-line); }
+.rule-dark { height: 1px; background: var(--color-line-dark); }
+
+/* ---- vertical writing ---- */
+.v-text {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.35em;
+}
+
+/* ---- kicker / metadata label ---- */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ---- keyframes ---- */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes dash-flow {
+  to { stroke-dashoffset: -24; }
+}
+@keyframes blink-caret {
+  50% { opacity: 0; }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
