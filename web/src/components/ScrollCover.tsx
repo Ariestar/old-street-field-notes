@@ -8,11 +8,11 @@ const HOLD_MS = 650;
  * 卷首开卷 —— 画卷自中央向两侧展开。
  * 地图自始至终可见、可拖拽；标题只作为被展开的画布：
  * 展毕稍驻，随即合卷归轴，整幅让位于地图。
+ *
+ * 注：不做 prefers-reduced-motion 短路 —— 系统关闭动画时仍照常开卷，
+ * 这是站点刻意的开场仪式（站主明确要求）。
  */
 export function ScrollCover() {
-  const reduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const [max] = useState(() =>
     typeof window !== 'undefined' ? Math.min(880, Math.round(window.innerWidth * 0.86)) : 880,
   );
@@ -25,7 +25,7 @@ export function ScrollCover() {
     return () => t.forEach(clearTimeout);
   }, []);
 
-  if (reduced || gone) return null;
+  if (gone) return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-40" aria-hidden>

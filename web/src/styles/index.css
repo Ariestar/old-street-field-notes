@@ -145,8 +145,7 @@ body {
   50% { opacity: 0; }
 }
 
-/* reduced motion */
+/* reduced motion：仅关闭装饰性滚动行为，不杀过渡/动画（站主明确要求保留全部动画） */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
