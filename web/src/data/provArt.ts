@@ -23,7 +23,7 @@ export const PROV_ART: ProvArt[] = [
   { prov: '北京市', short: '北京', coord: [116.44, 41.13],  file: 'prov-beijing.png', size: 40 },
   { prov: '山西省', short: '山西', coord: [112.45, 40.23],  file: 'prov-shanxi.png',  size: 60 },
   { prov: '河南省', short: '河南', coord: [112.59, 33.96],  file: 'prov-henan.png',   size: 78 },
-  { prov: '湖北省', short: '湖北', coord: [108.67, 30.5],   file: 'prov-hubei.png',   size: 46 },
+  { prov: '湖北省', short: '湖北', coord: [108.67, 30.5],   file: 'prov-hubei.png',   size: 84 },
   { prov: '江苏省', short: '江苏', coord: [120.74, 33.3],   file: 'prov-jiangsu.png', size: 92 },
   { prov: '安徽省', short: '安徽', coord: [117.34, 32.28],  file: 'prov-anhui.png',   size: 80 },
   { prov: '福建省', short: '福建', coord: [116.54, 26.76],  file: 'prov-fujian.png',  size: 70 },
