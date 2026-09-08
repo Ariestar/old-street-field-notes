@@ -1,7 +1,7 @@
 /**
  * 九省风物插画 —— 从《中国山河锦绣》参考图抠取的原画元素。
- * 锚定省域内坐标（避开街道节点簇，熊猫落川西山区、土楼落闽北），
- * 随地图平移缩放移动；全国视野显示，zoom > 5.2 淡出（与边框装饰同步）。
+ * 锚点经约束求解器定位：不压街道节点（≥10px）、避省名书法标签、
+ * 不与已放插画重叠、深覆盖城市标签罚分。zoom > 5.2 淡出（与边框装饰同步）。
  */
 
 export interface ProvArt {
@@ -18,13 +18,13 @@ export interface ProvArt {
 }
 
 export const PROV_ART: ProvArt[] = [
-  { prov: '四川省', short: '四川', coord: [100.3, 29.6],   file: 'prov-sichuan.png', size: 54 },
-  { prov: '云南省', short: '云南', coord: [99.0, 23.9],    file: 'prov-yunnan.png',  size: 56 },
-  { prov: '北京市', short: '北京', coord: [116.41, 40.88], file: 'prov-beijing.png', size: 22 },
-  { prov: '山西省', short: '山西', coord: [112.75, 39.0],  file: 'prov-shanxi.png',  size: 34 },
-  { prov: '河南省', short: '河南', coord: [115.05, 32.1],  file: 'prov-henan.png',   size: 42 },
-  { prov: '湖北省', short: '湖北', coord: [112.35, 31.5],  file: 'prov-hubei.png',   size: 26 },
-  { prov: '江苏省', short: '江苏', coord: [118.7, 32.75],  file: 'prov-jiangsu.png', size: 52 },
-  { prov: '安徽省', short: '安徽', coord: [117.25, 32.01], file: 'prov-anhui.png',   size: 44 },
-  { prov: '福建省', short: '福建', coord: [116.95, 26.0],  file: 'prov-fujian.png',  size: 38 },
+  { prov: '四川省', short: '四川', coord: [97.43, 33.87],   file: 'prov-sichuan.png', size: 96 },
+  { prov: '云南省', short: '云南', coord: [97.61, 24.77],   file: 'prov-yunnan.png',  size: 100 },
+  { prov: '北京市', short: '北京', coord: [116.44, 41.13],  file: 'prov-beijing.png', size: 40 },
+  { prov: '山西省', short: '山西', coord: [112.45, 40.23],  file: 'prov-shanxi.png',  size: 60 },
+  { prov: '河南省', short: '河南', coord: [112.59, 33.96],  file: 'prov-henan.png',   size: 78 },
+  { prov: '湖北省', short: '湖北', coord: [108.67, 30.5],   file: 'prov-hubei.png',   size: 46 },
+  { prov: '江苏省', short: '江苏', coord: [120.74, 33.3],   file: 'prov-jiangsu.png', size: 92 },
+  { prov: '安徽省', short: '安徽', coord: [117.34, 32.28],  file: 'prov-anhui.png',   size: 80 },
+  { prov: '福建省', short: '福建', coord: [116.54, 26.76],  file: 'prov-fujian.png',  size: 70 },
 ];
