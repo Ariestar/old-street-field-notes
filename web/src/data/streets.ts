@@ -1,8 +1,9 @@
 import type { Street } from './types';
 
 /**
- * 23 条古街实地档案。
- * 坐标为各街区中心点；intro/findings 依据实地照片与口述资料整理。
+ * 24 条古街实地档案。
+ * 坐标为各街区中心点；intro（中/英）与口述故事转录自《调研成果【图片+中英文介绍】》docx；
+ * 锦里、晋商老街无对应 docx，沿用实地观察记录。
  */
 export const STREETS: Street[] = [
   // ─────────────────────────── 巴蜀线 ───────────────────────────
@@ -18,7 +19,9 @@ export const STREETS: Street[] = [
     categories: ['建筑', '商业', '生活'],
     tagline: '清代满城胡同的最后遗存',
     intro:
-      '三条平行的巷子——宽巷子、窄巷子、井巷子，是清代满城八旗胡同仅存的城市切片。我们在清晨到达，游客尚未涌入，青砖灰瓦之间还能听见巷内居民拉开木窗的声音。改造后的街区把「老成都闲生活」变成了可以消费的布景，但拴马石、砖墙肌理与门头的收分比例，仍然替这座城市保存着胡同时代的尺度记忆。',
+      '宽窄巷子位于四川省成都市青羊区少城片区，由宽巷子、窄巷子、井巷子三条平行古巷组成，是成都唯一完整留存的清代满城历史街区。清康熙五十七年（1718年），清廷平定大小金川之乱后修筑满城，专供八旗官兵驻防，宽巷子原名兴仁胡同为官宦居所，窄巷子原名太平胡同为兵丁驻地。民国初年胡同改称巷子，茶馆、小吃铺、公馆林立，市井繁盛。2008年保护性修缮开街，完整保留鱼骨状街巷格局与70余座清代四合院。街区内恺庐为清代官宅孤本，井巷子文化墙以砖雕诉说三千年成都记忆。宽窄巷子融合北方八旗胡同规制与川西民居特色，是老成都「慢生活」文化的活标本。',
+    introEn:
+      'Kuanzhai Alley, located in the Shaocheng district of Qingyang District, Chengdu, Sichuan Province, consists of three parallel ancient lanes: Kuan (Wide) Lane, Zhai (Narrow) Lane, and Jing (Well) Lane. It is the only fully preserved historic district of the Qing Dynasty "Manchu City" in Chengdu. In 1718, the 57th year of the Kangxi reign, after quelling the Jinchuan rebellions, the Qing court built the Manchu City exclusively for Eight Banners garrison troops. Kuan Lane, originally called Xingren Hutong, housed officials; Zhai Lane, originally Taiping Hutong, was for ordinary soldiers. In the early Republican era, the hutongs were renamed "alleys," lined with teahouses, snack shops, and private mansions, bustling with street life. After protective restoration in 2008, the district retains its fishbone street layout and over 70 Qing Dynasty courtyard houses. Kailu, the iconic Qing official residence, and the Jing Lane Cultural Wall — a brick relief narrating 3,000 years of Chengdu history — anchor the district. Blending northern Eight Banners hutong planning with western Sichuan residential architecture, Kuanzhai Alley is a living specimen of old Chengdu\'s "slow life" culture.',
     findings: [
       '商业业态高度 tourist-oriented，本地居民几乎只在清晨出现',
       '川西民居的门头、拴马石等建筑细节保存完好，但内部多已完全商业化',
@@ -70,7 +73,9 @@ export const STREETS: Street[] = [
     categories: ['历史', '人物', '生活'],
     tagline: '府河码头上「日有千人拱手」的千年水镇',
     intro:
-      '「朝出锦官城，夜宿黄龙溪。」这里是古代成都的水路门户，正街、横街、新街等七条街保留着清代青石板与木穿逗结构。我们在此进行了两次长访谈——李大爷记忆里飘着豆花香的街道，与王大爷在府河拉纤的少年时代，拼出码头消失后古镇的另一副面孔。火龙灯舞是国家级非遗，每年正月铁水泼天。',
+      '黄龙溪古街位于四川省成都市双流区，历史可追溯至先秦时期，因「黄龙见武阳赤水」的古老记载而得名。古镇依水而兴，汉代已是川西较早的茶叶市场之一，明清时期逐渐形成「七街九巷」的街巷格局，并凭借水运发展成为繁华码头。镇内保存有镇江寺、潮音寺、古龙寺和独具特色的「三县衙门」，展现了深厚的地方历史文化。关于「诸葛树」「三庙镇恶龙」等传说，以及后来恢复的「烧火龙」习俗，也为古镇增添了浓厚的民间色彩。今天，黄龙溪仍以古街、码头、民俗和传统生活展现着川西古镇的独特魅力。',
+    introEn:
+      'Huanglongxi Ancient Street, located in Shuangliu District of Chengdu, Sichuan Province, has a history that can be traced back to the pre-Qin period. Its name is associated with the ancient record of a "yellow dragon appearing in the Chishui River at Wuyang." The town prospered along the waterways and had already become one of the early tea markets in western Sichuan during the Han Dynasty. By the Ming and Qing dynasties, it had developed a traditional layout of "seven streets and nine lanes" and flourished as a busy river port. Historic sites such as Zhenjiang Temple, Chaoyin Temple, Gulong Temple, and the distinctive "Three-County Yamen" reflect its rich local heritage. Folk legends about the Zhuge Tree and the three temples suppressing evil dragons, together with the revived "Fire Dragon" tradition, add vivid cultural color. Today, Huanglongxi continues to showcase the distinctive charm of an old Sichuan riverside town.',
     findings: [
       '码头功能消失后，古镇生计完全转向旅游，老茶馆成为过渡的活标本',
       '吊脚楼在河道整治中被拆除，「河」与「街」的共生关系正在断裂',
@@ -109,7 +114,9 @@ export const STREETS: Street[] = [
     categories: ['生活', '建筑'],
     tagline: '未被旅游化的市井褶皱',
     intro:
-      '九龙巷藏在乐山老城顺城街背后，窄处不过两米。这里没有游客、没有商铺改造，晾衣绳横在头顶，蜂窝煤堆在门边——是本次实践从未被打扰的原生街区样本。墙面上的老茶馆、理发店与杂货铺仍服务着留守的老年人，时间在这里几乎是静止的。',
+      '顺城街九龙巷位于四川省乐山市老城区核心地带，南起学道街，北至龙神祠，是乐山最富文气的古巷之一。九龙巷因巷尾明代古城墙上的九龙祠（龙神祠）得名，祠中供奉隋代嘉州太守赵昱，相传他曾在九龙滩斩蛟治水，被奉为城市守护神。明代这里是会府，清代为试院与九龙书院，文风鼎盛。民国年间，富商「杨半城」在此修建雍睦堂、和睦堂两大宅院，深宅大院与封火砖墙构成古巷独特风貌。抗战时期武大附中迁入，大批知识分子聚居于此。文革中巷名一度改为「改造巷」。如今九龙巷经微改造焕发新生，「龙生九子」主题遍布街巷，古朴与新潮交融，成为乐山老城记忆的活标本。',
+    introEn:
+      'Shuncheng Street and Jiulong Alley lie at the heart of the old town in Leshan, Sichuan Province. Stretching from Xuedao Street in the south to the Dragon God Shrine in the north, Jiulong Alley is one of Leshan\'s most culturally evocative ancient lanes. It takes its name from the Jiulong (Nine Dragons) Shrine — also called the Dragon God Shrine — on the Ming Dynasty city wall at the lane\'s northern end. The shrine honors Zhao Yu, a Sui Dynasty governor of Jiazhou, who according to legend slew a flood dragon at Jiulong Beach and was revered as the city\'s guardian deity. In the Ming Dynasty, this area housed the official ceremonial hall; in the Qing, it became the examination hall and Jiulong Academy, a center of learning. During the Republican era, the wealthy "Yang Half-City" family built two grand estates here — Yongmutang and Hemutang — their deep courtyards and fire-seal brick walls giving the alley its distinctive character. During the War of Resistance, Wuhan University\'s affiliated high school moved in, drawing a community of intellectuals. During the Cultural Revolution, the lane was briefly renamed "Reform Alley." Today, after sensitive micro-renovation with a "Nine Sons of the Dragon" theme, the alley blends ancient charm with new vitality — a living specimen of Leshan\'s old town memory.',
     findings: [
       '零旅游化：完整保留居住功能，老龄化程度极高',
       '穿斗结构老房多已列为危房，「自然衰败」是最大的保护威胁',
@@ -129,39 +136,44 @@ export const STREETS: Street[] = [
     route: 'bashu',
     order: 5,
     categories: ['生活', '建筑'],
-    tagline: '板门店与蜂窝煤的街道人类学',
+    tagline: '宝塔镇河妖的千年传说',
     intro:
-      '黑塔街属于广汉老城。清晨的街市沿着骑楼式板门店铺开，蔬菜直接摆在街沿上。房屋多为上世纪中期改建的砖木混合结构，「古」的成分并不纯粹，但街道生活本身——买菜、剃头、摆龙门阵——构成了比建筑更珍贵的流动性遗产。',
+      '黑塔街位于四川省德阳市广汉市金雁街道君平社区，沿坪桥河北岸蜿蜒而建，是川西平原上一座承载千年传说的古老街巷。黑塔街曾是川陕古驿道上的核心市井，因街口矗立一座通体墨色的青砖古塔而得名，塔檐铜铃风过清越，守护一方百姓。「宝塔镇河妖」的传说流传数百年，西汉严君平「核桃赠孝」的典故更让此街被亲切称为「核桃街」。街上保留有明代石砌排水、清代雕花门楣、民国商铺旧址，青瓦穿斗民居鳞次栉比。历经百年沧桑，2023年启动修缮改造，「修旧如旧」续文脉，如今已成为广汉独具烟火气息的文化新地标。',
+    introEn:
+      'Heita Street (Black Pagoda Street) lies in Junping Community, Jinyan Subdistrict, Guanghan City, Deyang, Sichuan Province. Winding along the northern bank of the Pingqiao River, it is an ancient street on the Western Sichuan Plain bearing a thousand-year-old legend. Once a bustling market town on the ancient Sichuan-Shaanxi post road, the street takes its name from a dark brick pagoda that once stood at its entrance — its eaves hung with copper bells whose clear tones rang out in the wind, guarding the people who lived below. The legend of "the pagoda subduing the river demon" has been told for centuries, while the story of Western Han scholar Yan Junping giving walnuts to a filial son has earned the street its affectionate nickname "Walnut Street." The street preserves Ming Dynasty stone drains, Qing Dynasty carved lintels, and Republican-era shop fronts, with rows of green-tiled chuandou timber-frame houses. After a century of change, a restoration project begun in 2023, following the principle of "repairing the old as old," has revived its cultural heritage — making it today a vibrant new cultural landmark in Guanghan.',
     findings: [
       '建筑价值中等，但「街道生活」的完整度是全程最高',
       '板门店（可完全敞开的木门板）仍是主流商铺形态',
       '赶场日人流溢出到机动车道，街道空间被重新占有',
     ],
     period: '明清街基，现房多为 1950–80 年代',
-    photoCount: 6,
-    keywords: ['赶场', '板门店', '街道生活'],
+    photoCount: 2,
+    keywords: ['川陕驿道', '核桃街', '街道生活'],
   },
   {
     id: 'yanyun',
-    name: '盐运古街',
-    fullName: '四川省自贡市盐运古街',
+    name: '仙市古街',
+    fullName: '四川省自贡市沿滩区仙市古街',
     city: '自贡',
     province: '四川',
-    coord: [104.7861, 29.3397],
+    coord: [104.9167, 29.2722],
     route: 'bashu',
     order: 6,
     categories: ['历史', '商业'],
-    tagline: '盐井之上，一条街因一种产业而生',
+    tagline: '釜溪河畔「中国盐运第一镇」',
     intro:
-      '自贡因盐成邑。盐运古街串联着西秦会馆与盐业历史博物馆一带的清代盐商建筑群，如意斗拱与戏楼是盐业财富的物证。产业逝去后，街道靠「盐」这一单一叙事维持文化再生产——我们的问题是：当叙事资源只有一种，古街的更新还能怎么走？',
+      '仙市盐运古街位于四川省自贡市沿滩区釜溪河畔，距自贡市区约11公里，被誉为「中国盐运第一镇」。古镇始建于北周，隋代定名「仙滩」，因釜溪河天然河滩形成水运码头而兴起，距今近1500年。明清时期自贡井盐业鼎盛，仙市成为「川盐济楚」的第一水陆咽喉——自流井盐船在此换大船，顺沱江入长江销往湘鄂。鼎盛时河面盐船数百艘，沿街钱庄、盐铺、茶馆、货栈鳞次栉比。古街完整留存「四街五庙三码头」川南场镇格局，南华宫、天上宫两座会馆见证粤闽盐商的辉煌。2007年获评中国历史文化名镇，是中国井盐盐运文化的活标本。',
+    introEn:
+      'Xianshi Salt Transport Ancient Street lies on the banks of the Fuxi River in Yantan District, Zigong City, Sichuan Province, about 11 kilometers from downtown Zigong. It is known as "China\'s Number One Salt Transport Town." Founded during the Northern Zhou Dynasty and named "Xiantan" (Immortal Beach) in the Sui Dynasty, the town grew from a natural river landing on the Fuxi River, with a history of nearly 1,500 years. During the Ming and Qing dynasties, as Zigong\'s well salt industry flourished, Xianshi became the first vital hub of the "Sichuan Salt to Chu" trade route — salt boats from Ziliujing transferred cargo to larger vessels here, then sailed down the Tuojiang River into the Yangtze to reach Hunan and Hubei. At its peak, hundreds of salt boats lined the river, and banks, salt shops, teahouses, and warehouses lined the street. The ancient street preserves the complete "four streets, five temples, three wharves" layout of a southern Sichuan market town, with Nanhua Palace and Tian Palace standing as witnesses to the glory of Guangdong and Fujian salt merchants. Named a National Historic and Cultural Town in 2007, Xianshi is a living specimen of China\'s well salt transport culture.',
     findings: [
-      '会馆建筑群等级高，保护状况良好',
-      '盐业叙事一枝独秀，但业态转化率低，访客稀少',
-      '工业遗产（天车、盐灶）与街区尚未形成联动线路',
+      '「四街五庙三码头」川南场镇格局完整留存',
+      '南华宫、天上宫两座会馆见证粤闽盐商的辉煌',
+      '盐运叙事一枝独秀：井盐遗产与街区形成完整的产业动线',
     ],
-    period: '清咸丰同治年间因盐兴街',
+    period: '北周始建，隋定名「仙滩」，明清因盐鼎盛',
     photoCount: 3,
-    keywords: ['盐业史', '西秦会馆', '产业遗产'],
+    keywords: ['盐运第一镇', '釜溪河', '川盐济楚'],
+    heritage: '中国历史文化名镇',
   },
   {
     id: 'xihutang',
@@ -175,7 +187,9 @@ export const STREETS: Street[] = [
     categories: ['人物', '生活'],
     tagline: '老茶馆里，时间是泡在盖碗里的',
     intro:
-      '富顺文庙背后的西湖塘老街，保留着川南县级老城最完整的茶馆生态。我们在此录下两段共十六分钟的访谈：茶客们午后落座，一方竹椅一碗茶，谈论着街坊的婚丧嫁娶。老街未做任何旅游开发，原住民与茶馆构成自循环的生活共同体——这正是「活态遗产」最理想的观察窗口。',
+      '西湖塘老街位于四川省自贡市富顺县城西北隅，依傍着千年古湖富顺西湖，是「才子之乡」最具人文气息的老街。宋代西湖疏凿成湖后，湖畔渐成街巷，历经元明清三代发展，街市绵延，文脉悠长。老街南有神龟山读易洞，北宋易学大师李见曾在此洞中潜心研《易》；西畔有县尹读书楼旧址，清代学者段玉裁任富顺知县时夜夜孤灯苦读，百姓遥指湖楼，传为佳话。湖畔曼熊祠纪念明代「景泰十才子」晏铎与「嘉靖八才子」熊过。民国时孟才亭临湖而立，九曲桥、红蕖榭、碧波亭点缀其间。如今老街依山傍湖，青砖黛瓦间藏着千年书香，是富顺人心中最深的文化记忆。',
+    introEn:
+      'Xihutang Old Street lies in the northwest of Fushun County, Zigong City, Sichuan Province, nestled beside the thousand-year-old Fushun West Lake. It is the most culturally evocative old street in this famed "hometown of scholars." After the lake was dredged in the Song Dynasty, streets gradually formed along its shores, growing through the Yuan, Ming, and Qing dynasties into a thriving neighborhood with a deep literary heritage. To the south stands the Reading I Ching Cave on Shengui Hill, where Northern Song master Li Jian devoted himself to studying the Book of Changes. On the western shore stands the former site of the Magistrate\'s Study Tower, where Qing scholar Duan Yucai read deep into the night during his tenure as county magistrate — the image of that lone lamp across the water passed down as a beloved local tale. The Yan-Xiong Shrine by the lake honors Yan Duo of the "Ten Jingtai Talents" and Xiong Guo of the "Eight Jiajing Talents" from the Ming Dynasty. The Mengcai Pavilion was built by the water in the Republican era, alongside the Nine-turn Bridge, Red Lotus Pavilion, and Blue Wave Pavilion. Today, the old street — with its gray bricks and dark tiles, tucked between hills and lake — holds a millennium of scholarly fragrance, the deepest cultural memory in the hearts of Fushun people.',
     findings: [
       '茶馆是社区信息中枢，承担议事、调解、娱乐全部功能',
       '两段录音证实：街区记忆以「人」而非「建筑」为载体传承',
@@ -190,7 +204,7 @@ export const STREETS: Street[] = [
         audioDuration: "09'31\"",
       },
     ],
-    period: '清代老街基',
+    period: '宋代成湖成街，元明清三代发展',
     photoCount: 16,
     keywords: ['老茶馆', '录音访谈', '活态遗产'],
   },
@@ -205,17 +219,19 @@ export const STREETS: Street[] = [
     route: 'dianyun',
     order: 1,
     categories: ['商业', '建筑'],
-    tagline: '老字号的百年门面',
+    tagline: '南国文明坊下的老字号街区',
     intro:
-      '文明街历史片区是昆明老城最后一成完整的街区。铁艺拱门上「文明街历史老字号街区」的字样揭示了它的定位：以福林堂等百年药铺为锚点的老字号集群。我们在改造后的骑楼下穿行，注意到昆明人依然习惯来这里抓药、买饼——商业功能未断，是它与旅游化古街最大的不同。',
+      '文明街位于昆明老城区光华街东段，因街前的「南国文明」牌坊而得名，是老昆明最具书卷气的街道之一。清代，文庙前立有「南国文明坊」，原为「勋阀双桓」坊，是昆明城中轴线牌坊群的重要组成部分。民国初年，在牌坊南侧新建街道，初名「文明新街」，后改称文明街，沿用至今。街名取自《周易》「天下文明」之意，寄托着对文教兴盛、世道昌明的期许。文明街地处昆明历史文化核心区，毗邻文庙与光华街历史街区，街巷格局保存完整，承载着老昆明崇文重教的文化传统，是昆明以「文」命名的街巷中最具代表性的一条。',
+    introEn:
+      'Wenming Street, located in the eastern section of Guanghua Street in Kunming\'s old town, takes its name from the "Southern Civilization" memorial arch that once stood at its entrance — making it one of the most culturally evocative streets in old Kunming. During the Qing Dynasty, the "Nanguo Wenming" Arch (Southern Civilization Arch), originally known as the "Xunfa Shuanghuan" Arch, stood in front of the Confucian Temple as an important part of the archway ensemble along Kunming\'s central axis. In the early Republican era, a new street was built south of the arch, first called "Wenming New Street" and later shortened to Wenming Street, a name that endures today. The street name derives from the I Ching phrase "civilization under heaven," embodying aspirations for cultural flourishing and an enlightened society. Situated in the heart of Kunming\'s historic district, adjacent to the Confucian Temple and Guanghua Street, Wenming Street preserves its original layout and carries forward Kunming\'s deep tradition of reverence for learning — the most representative of all Kunming streets named with the character for "culture."',
     findings: [
       '老字号仍是本地生活供应商，本地客占比明显高于同类街区',
-      '「文明」一词来自 1919 年街口文明工程局，街道名字本身就是近代史',
-      '法式与中式立面并存，是滇越铁路时代的建筑混血',
+      '街名出自《周易》「天下文明」，街道名字本身就是一部教化史',
+      '街巷格局保存完整，毗邻文庙，是「文」字辈街巷的代表',
     ],
-    period: '明代形成，1919 年定名',
+    period: '明代形成，民国初年定名',
     photoCount: 5,
-    keywords: ['老字号', '福林堂', '滇越铁路时代'],
+    keywords: ['南国文明坊', '老字号', '崇文重教'],
   },
   {
     id: 'xunjin',
@@ -229,15 +245,17 @@ export const STREETS: Street[] = [
     categories: ['建筑', '历史'],
     tagline: '盘龙江畔的法式街区余温',
     intro:
-      '巡津街在盘龙江与金碧路之间，因旧时「巡津渡」得名。二十世纪初法国人在此建医院、洋行，留下昆明最集中的法式建筑群。今天梧桐依旧，老宅或为机关所用，或空置朽坏。我们沿江徒步时发现：这条街的历史层积，几乎无人为之做系统的解读与标识。',
+      '巡津街位于昆明市西山区盘龙江西岸，北起得胜桥，南至双龙桥，绵延一公里有余，是老昆明城南水陆交通的核心地带。元代赛典赤治理滇池后，此地渐成水运码头；清代因设防汛哨所昼夜巡江而得名「巡津」，云津夜市灯火万家，盛极一时。1910年滇越铁路通车后，巡津街成为昆明对外开放前沿，法式洋楼林立，领事馆、银行、医院、洋行汇聚，被誉为昆明「洋楼街」。梁思成、林徽因曾租住止园，留下文人佳话。如今街区保留民国公馆与法式建筑，经微改造与咖啡文化街区活化，老巷新居共生，见证昆明从古代码头到近代商埠再到当代更新的完整变迁。',
+    introEn:
+      'Located on the western bank of the Panlong River in Xishan District, Kunming, Xunjin Street stretches over one kilometer from Desheng Bridge in the north to Shuanglong Bridge in the south, serving as the historic heart of water and land transportation in old Kunming\'s southern district. After the Yuan Dynasty official Sayyid Ajall managed the Dianchi Lake, this area gradually became a river port. In the Qing Dynasty, it was named "Xunjin" — meaning "patrolling the ferry" — after flood control watchmen patrolled the riverbank day and night, while the famous Yunjin Night Market lit up the riverfront with thousands of lanterns. After the Yunnan-Vietnam Railway opened in 1910, Xunjin Street became Kunming\'s frontier of openness, lined with French-style buildings housing consulates, banks, hospitals, and foreign firms, earning it the nickname "Foreign Building Street." Liang Sicheng and Lin Huiyin once lived in the Zhiyuan residence here, leaving a cherished chapter of literary history. Today, the preserved Republican-era mansions and French architecture, revitalized through micro-renovation and a coffee culture district, witness Kunming\'s complete transformation from ancient port to modern treaty port to contemporary urban renewal.',
     findings: [
       '法式历史建筑产权复杂，多为单位占用，公众可读性低',
       '盘龙江步道改造使滨水界面活跃，但历史叙事缺席',
       '甘美医院旧址等关键节点无任何解说系统',
     ],
-    period: '明清渡口，20 世纪初法式街区',
+    period: '元代码头，清代定名，1910 年后成法式街区',
     photoCount: 6,
-    keywords: ['法式建筑', '盘龙江', '叙事缺席'],
+    keywords: ['法式建筑', '云津夜市', '梁思成林徽因'],
   },
   {
     id: 'tuodong',
@@ -251,15 +269,17 @@ export const STREETS: Street[] = [
     categories: ['历史', '商业'],
     tagline: '从拓东城到地铁工地的一千两百年',
     intro:
-      '拓东路是昆明最古老的中轴线之一——唐代拓东城就奠基于此。古幢公园内的地藏寺经幢是大理国石刻的巅峰。今天的拓东路被高架与地铁工地切成碎片，古幢在玻璃罩里沉默。我们在这里看到的不是「古街保护」，而是一个古街地层被现代性逐层覆盖的过程标本。',
+      '拓东路位于昆明市盘龙区，是昆明城市历史的活化石。唐永泰元年（公元765年），南诏王阁罗凤遣长子凤伽异筑拓东城，取「开拓东境」之意，拓东路正处古城中轴线，为昆明正式建城之始。大理国时期，此地修建地藏寺及经幢，为国家级珍贵文物。清代街道由云津街、盐行街、县前铺三段组成，商贸繁盛，云津夜市灯火彻夜。1937年正式定名拓东路，全长1930米，曾是滇黔公路起点。如今街上保留地藏寺经幢、得胜桥旧址、复建状元楼等遗迹，见证昆明千年城市变迁。',
+    introEn:
+      'Located in Panlong District of Kunming, Tuodong Road is a living fossil of the city\'s history. In 765 AD during the Tang Dynasty, Nanzhao King Geluofeng ordered his eldest son Fengjiayi to build Tuodong City, meaning "opening up the eastern frontier." Tuodong Road lies on the central axis of the ancient city, marking the official founding of Kunming. During the Dali Kingdom period, the Dizang Temple and its exquisite stone scripture pillar were built here, now a national treasure. In the Qing Dynasty, the road comprised three sections bustling with trade, and the famous Yunjin Night Market lit up the night sky. Officially named Tuodong Road in 1937, this 1,930-meter street was once the starting point of the Yunnan-Guizhou Highway. Today, it preserves historical sites including the Dizang Temple scripture pillar, the Desheng Bridge site, and the rebuilt Zhuangyuan Tower, bearing witness to Kunming\'s thousand-year urban evolution.',
     findings: [
-      '街道的历史深度全滇最高，但地面遗存可见度几乎为零',
-      '大理国经幢级别极高，与其城市环境的可达性严重不匹配',
-      '地铁建设期恰是记录「街道地层」的最后窗口',
+      '唐拓东城建城之始，昆明千年中轴线的活化石',
+      '大理国地藏寺经幢为国宝级文物，现藏昆明市博物馆',
+      '1937 年定名、全长 1930 米，曾是滇黔公路起点',
     ],
-    period: '唐永昌元年（765）拓东城建城以来',
+    period: '唐永泰元年（765）拓东城建城以来',
     photoCount: 5,
-    keywords: ['拓东城', '地藏寺经幢', '地层覆盖'],
+    keywords: ['拓东城', '地藏寺经幢', '状元楼'],
   },
   // ─────────────────────────── 中原线 ───────────────────────────
   {
@@ -274,7 +294,9 @@ export const STREETS: Street[] = [
     categories: ['商业', '生活'],
     tagline: '元大都胡同肌理上的全球小吃街',
     intro:
-      '南锣鼓巷是元大都「里坊制」留到今天、格局最完整的棋盘式街区，八条胡同对称如蜈蚣。主巷早已被小吃与文创店占领，但拐进帽儿胡同、雨儿胡同十步之后，四合院生活依然如常——「一条街两种时间」的折叠感是本次实践在北京最重要的体验。',
+      '南锣鼓巷坐落于北京东城区，与元大都同期建成，距今已有740余年历史。街巷全长787米，呈鱼骨式布局，两侧整齐分布16条胡同，是国内保存最完整的元代棋盘式传统民居街区。明清时期这里达官显贵云集，留存僧格林沁王府、齐白石故居、茅盾故居、婉容后邸等大量府邸与名人遗迹。历经数百年变迁，如今作为步行街，落实街区风貌保护导则，兼顾老北京胡同居住原貌与文旅功能，是感受古都胡同文化的代表性地标。',
+    introEn:
+      'Nanluogu Lane is situated in Dongcheng District, Beijing. Constructed alongside the Yuan Dadu capital, it boasts a history of more than 740 years. Stretching 787 meters, it adopts a fishbone layout with 16 orderly-arranged hutongs on both sides. It is China\'s best-preserved chessboard-style residential block dating back to the Yuan Dynasty. During the Ming and Qing dynasties, numerous nobles and high-ranking officials resided here. A wealth of historic sites remain, including Senggelinqin Prince Mansion, former residences of Qi Baishi and Mao Dun, and Wanrong\'s family mansion. Now a pedestrian-only street, it follows conservation guidelines to preserve authentic hutong living culture, standing as a landmark to experience old-Beijing charm.',
     findings: [
       '主街商业化率接近 100%，支胡同仍为纯居住',
       '元大都巷道宽度与走向至今未变，规划遗产惊人',
@@ -296,7 +318,9 @@ export const STREETS: Street[] = [
     categories: ['历史', '文化'],
     tagline: '一街槐荫，两座孔庙',
     intro:
-      '国子监街可能是北京气质最完整的街道：成排古槐、四座彩绘牌楼、孔庙与国子监隔街相望。我们在下午四点到达，夕阳穿过槐树叶落在下马碑上，游客稀少。这条街几乎回答了「当一条古街只需要做好一件事——庄严——时，它应该是什么样子」。',
+      '国子监街坐落于北京东城区，是一条承载千年文教底蕴的历史文化名街。街道因元、明、清三代最高学府国子监而得名，街内毗邻孔庙，古代这里是国家祭祀孔子、培养官僚人才的核心场所。街巷保留大量明清古建筑，分布牌楼、辟雍殿、彝伦堂等经典礼制建筑，古树参天，格局古朴庄重。古时学子入监读书、科举士子祭拜圣贤，皆往来于此。如今国子监街完整保存古代文教街区风貌，是北京城内不可多得的儒学文化活化石，见证着中国古代教育制度的兴衰变迁。',
+    introEn:
+      'Guozijian Street is located in Dongcheng District, Beijing, a famous historical-cultural street bearing thousand-year-old Chinese educational heritage. It gets its name from the Guozijian, the supreme imperial academy of the Yuan, Ming and Qing dynasties. Adjacent to the Confucius Temple, this area served as the national core site for Confucius worship and official talent cultivation in ancient times. Well-preserved Ming-Qing ancient buildings, including memorial archways, Biyong Hall and Yilun Hall, scatter along the tree-shaded street. In old times, imperial students and examination candidates visited here for study and homage. Retaining the original layout of an ancient cultural-education block, Guozijian Street acts as a living fossil of Confucian culture in Beijing, witnessing the rise and fall of the ancient Chinese education system.',
     findings: [
       '礼制空间序列保存最完整，牌楼—下马碑—影壁层次分明',
       '业态以文教、展陈为主，几乎无商业噪音',
@@ -319,7 +343,9 @@ export const STREETS: Street[] = [
     categories: ['文化', '商业'],
     tagline: '为盐池而建的仿古新街',
     intro:
-      '「盬」是盐池的古称——这条街的名字就是一个生僻字的复活运动。2021 年开街的盬街是典型的仿古新建街区，主打关公文化与现代夜经济。我们对比盬街与真正的池神庙：符号被大量复制，而真实的盐池遗产却门可罗雀。仿古街区与真遗产的关系，在这里呈现最戏剧性的倒挂。',
+      '盬街位于山西省运城市盐湖区，是一条集中展示河东历史文化与民俗风情的特色街区。运城因盐而兴，「盬」字古指河东盐池，老街所在区域也曾是重要的运盐通道。全长约1.29公里的街道以晋南传统建筑风格为主，将盐文化、关公文化、德孝文化和根祖文化融入街区景观。「五步产盐法」「千里走单骑」等主题雕塑讲述着河东历史故事，蒲剧、鼓乐、皮影及传统美食则展现着当地民俗生活。如今，盬街将历史记忆、非遗展示与现代商业相结合，成为人们了解河东文化、感受古老运城与现代生活交融的重要窗口。',
+    introEn:
+      'Gujie Street, located in Yanhu District of Yuncheng, Shanxi Province, is a cultural district showcasing the history and folk traditions of the Hedong region. Yuncheng prospered because of its salt resources, and the rare Chinese character "盬" (gǔ) historically refers to the ancient Hedong Salt Lake. The area around the street was once an important route for transporting salt. Stretching for about 1.29 kilometers, Gujie features traditional southern Shanxi architecture and highlights salt culture, Guan Yu culture, traditional virtues, and ancestral heritage. Sculptures depicting stories such as the traditional five-step salt-making process and Guan Yu\'s legendary journey bring local history to life, while Puzhou Opera, folk music, shadow puppetry, and regional food reflect local traditions. Today, Gujie combines historical memory, intangible cultural heritage, and modern commerce, offering visitors a vivid window into Hedong culture and the continuing dialogue between Yuncheng\'s past and present.',
     findings: [
       '「盬」字命名是成功的文字遗产营销案例',
       '夜间灯光演艺拉动人气，但与池神庙等真遗产无动线连接',
@@ -362,15 +388,17 @@ export const STREETS: Street[] = [
     route: 'zhongyuan',
     order: 5,
     categories: ['文化', '商业'],
-    tagline: '和大栅栏同岁，还在卖纸笔',
+    tagline: '九百年书香未断的街道',
     intro:
-      '开封书店街与北京琉璃厂齐名，明代称「大门街」，清乾隆年间因书铺云集改今名。让我们震动的是：三百多年过去，这条街仍在卖文房四宝与旧书——功能从未漂移。傍晚穿过牌楼，装裱店的老先生在灯下刷浆糊，八朝古都的书卷气就停在这六百米里。',
+      '开封书店街坐落于开封古城核心区域，其前身是北宋繁华的高头街，毗邻大宋皇宫，《东京梦华录》记载此处商贸鼎盛。明代改称大店街，清乾隆年间正式定名「书店街」。街道全长620米，保留清末民初建筑风貌，古色古香。自清代起，这里云集众多书坊文铺，经营古籍字画、文房四宝；近代中华书局、开明书店等相继开设分店，成为中原赫赫有名的「文化一条街」。作为国内少有的以书店命名的古街，九百余年方志记载从未中断，承载着开封浓郁的笔墨书香与古城文化记忆。',
+    introEn:
+      'Bookstore Street lies in the heart of ancient Kaifeng. Dating back to the Northern Song Dynasty, it was then called Gaotou Street adjacent to the imperial palace, thriving with bustling commerce as recorded in Dongjing Meng Hua Lu (The Eastern Capital: A Dream of Splendor). It was renamed Dadian Street in the Ming Dynasty and officially got its present name in the Qianlong reign of the Qing Dynasty. Stretching 620 meters, the street preserves architectural styles of the late Qing and early Republic of China. Since the Qing Dynasty, numerous bookstores gathered here, selling ancient books, paintings and stationery. In modern times, well-known publishing houses set up branches, making it a renowned cultural street in central China. Rarely named after bookstores nationwide, it has been documented in local chronicles for over 900 years, bearing Kaifeng\'s profound scholarly heritage.',
     findings: [
       '文化功能三百年未漂移，是全国唯一仍在「营业」的书店古街',
       '业态自组织程度高：笔墨、装裱、旧书形成完整产业链',
       '建筑为清末民初豫东风格，修缮中保留了黑漆金字的门面传统',
     ],
-    period: '明代大门街，清乾隆间定名',
+    period: '北宋高头街，清乾隆间定名',
     photoCount: 3,
     keywords: ['文房四宝', '功能延续', '北宋东京'],
   },
@@ -386,7 +414,9 @@ export const STREETS: Street[] = [
     categories: ['历史', '生活'],
     tagline: '四牌楼下的县城日常',
     intro:
-      '濮阳老城十字街的中心，矗立着一座明嘉靖年间的四牌楼。四条街向四方展开，庙宇、老字号与上世纪百货大楼混在一个路口。这里的一切都是「被使用的」：牌楼下摆摊，老街里上学。作为县城古街样本，它展示了遗产与日常之间最松弛的相处方式。',
+      '濮阳县古十字街坐落于河南濮阳老城中心，街区占地7万平方米，2006年列入河南省省级文保单位，2013年获评中国历史文化名街。街区以明代四牌楼为核心，北大街矗立八都坊，留存成片明清青砖灰瓦建筑，延续「前店后坊」传统格局，保有200余家传统店铺，汇集装裱、木刻、特色小吃、字画手工艺等业态。街巷保存北方四合院与墀头雕刻等建筑细节，多部明清《开州志》均有记载，古街融合古迹、市井烟火与民俗传说，是豫北保存完整的明清活态历史街区。',
+    introEn:
+      'The Ancient Cross Street of Puyang lies in the heart of the old town of Puyang County, Henan Province, covering an area of 70,000 square meters. It was designated a Henan Provincial Cultural Relic Protection Unit in 2006 and honoured as one of China\'s Famous Historical and Cultural Streets in 2013. Centered on the four-pillar Ming Dynasty Four-Pavilion Archway, with the Badu Archway standing on North Street, it preserves clusters of Ming-Qing grey-brick buildings. Following the traditional "shopfront, workshop-back" layout, more than 200 old stores remain here, covering mounting, woodcarving, local snacks, calligraphy-painting crafts and other trades. Northern-style courtyards and exquisite stone carvings are well kept. Recorded in multiple ancient local chronicles, this living historic block carries time-honored folk customs and civic vitality in northern Henan.',
     findings: [
       '四牌楼为全国罕见的十字过街纯木构，仍允许非机动车穿行',
       '县城尺度下的遗产「无感化」使用，居民与文物共生而不自知',
@@ -395,6 +425,7 @@ export const STREETS: Street[] = [
     period: '明嘉靖年间四牌楼',
     photoCount: 4,
     keywords: ['四牌楼', '县城日常', '共生使用'],
+    heritage: '中国历史文化名街',
   },
   // ─────────────────────────── 江南线 ───────────────────────────
   {
@@ -409,7 +440,9 @@ export const STREETS: Street[] = [
     categories: ['建筑', '文化'],
     tagline: '八百年河街并行，水陆双棋盘',
     intro:
-      '平江路是宋代《平江图》上就已经存在的一条街——八百年来河街并行、桥路相接的格局未变。夜晚灯笼映在平江河里，评弹声从茶馆里漏出来。我们沿河走了三遍：一次听水，一次看桥，一次数灯。支巷里的评弹博物馆与昆曲博物馆，让这条街成为江南文化密度最高的六里地。',
+      '平江路历史街区位于江苏省苏州市姑苏区，已有2500多年历史，是苏州古城保存最完整的历史街区之一。全长1606米的平江路依河而建，至今仍保持「水陆并行、河街相邻」的传统格局。沿街粉墙黛瓦、小桥流水，古巷、民居、园林与河道相映成趣，展现出典型的江南水城风貌。这里不仅保留着耦园等历史遗存，还延续着昆曲、评弹、古琴等传统文化。如今，老宅、居民与特色店铺共存，乌篷船穿行于水巷之间，让平江路在延续历史文脉的同时，依然保有鲜活的市井生活。',
+    introEn:
+      'The Pingjiang Road Historic District, located in Gusu District of Suzhou, Jiangsu Province, has a history of more than 2,500 years and is one of the best-preserved historic areas in the ancient city of Suzhou. Stretching for 1,606 meters along the river, Pingjiang Road still retains its traditional layout, with waterways running alongside streets. Whitewashed houses with dark-tiled roofs, stone bridges, narrow lanes, classical gardens, and canals together create the distinctive landscape of a Jiangnan water town. The district preserves historic sites such as the Couple\'s Retreat Garden, while traditional arts including Kunqu Opera, Pingtan storytelling, and guqin music remain part of its cultural life. Today, historic residences, local communities, and small shops coexist along the old street, while traditional boats glide through the waterways. In Pingjiang Road, Suzhou\'s historical heritage is not only preserved, but continues to be part of everyday life.',
     findings: [
       '《平江图》碑刻与今天街巷走向基本重合，是活着的宋城标本',
       '「修旧如旧」执行度高，但主街业态趋同（丝巾、评弹、茶饮）',
@@ -432,13 +465,15 @@ export const STREETS: Street[] = [
     categories: ['建筑', '商业'],
     tagline: '流动的「清明上河图」',
     intro:
-      '屯溪老街由新安江码头孕育，一条 1272 米的直街上，宋、明、清各代建筑在历次水患后重建层叠。老街的独特在于它是「活」的商业街——本地人仍在此购物、买菜，徽墨歙砚与黄山烧饼在同一条屋檐下。我们清点了一至三马路口的老字号，大多数招牌比许多城市的历史还长。',
+      '屯溪老街坐落于安徽黄山屯溪三江汇流之处，肇始于南宋水运埠口，元末明初依托「八家栈」形成街市，明清发展为皖南商贸总市，被誉为「流动的清明上河图」。老街主街长832米，呈鱼骨式街巷格局，留存300余栋徽派马头墙建筑，延续「前店后宅」传统形制。这里曾是徽茶、徽墨外销枢纽，历经火灾、战乱后修缮保护，2009年入选首批中国历史文化名街，是国内保存最为完好的宋明清徽派古商业街，承载着厚重的徽商文脉与市井记忆。',
+    introEn:
+      'Located at the confluence of three rivers in Tunxi District, Huangshan, Anhui Province, Tunxi Old Street originated as a Southern Song water-transport wharf. Its market took shape in the early Ming Dynasty from "Eight Stacks," and it grew into a major commercial hub of southern Anhui in the Ming-Qing era, nicknamed "a flowing Riverside Scene at Qingming Festival." The main street is 832 meters long, adopting a fishbone layout with over 300 well-preserved Huizhou-style buildings featuring horsehead walls. It keeps the traditional "shop in front, residence behind" pattern. Once a trading center for Hui ink and Tunxi green tea, the street survived fires and wars. Listed among China\'s first batch of Famous Historical and Cultural Streets in 2009, it stands as China\'s best-preserved ancient Huizhou commercial street with profound Huizhou merchants\' heritage.',
     findings: [
       '本地生活与旅游商业比例约 6:4，是少见的「双系统」并存',
       '徽派建筑防火马头墙因历史上多次火灾而不断强化',
       '夜色中的灯笼序列是刻意设计，与街巷尺度精确匹配',
     ],
-    period: '南宋徽商兴起，明清定型',
+    period: '南宋肇始，元末明初成街，明清定型',
     photoCount: 6,
     keywords: ['徽派建筑', '新安江码头', '双系统街区'],
     heritage: '中国历史文化名街',
@@ -456,7 +491,9 @@ export const STREETS: Street[] = [
     categories: ['建筑', '历史', '文化'],
     tagline: '半部中国近代史住在坊巷里',
     intro:
-      '「一片三坊七巷，半部中国近代史。」林则徐、严复、林觉民、冰心都从这片坊巷走出。马鞍墙的白灰在榕树下泛光，南后街的人流与坊巷的安静只隔一个门洞。我们在林觉民故居读《与妻书》全文，十九岁的决绝与坊巷的深宅形成巨大的情感张力——这是全程最沉重的停留。',
+      '三坊七巷坐落于福建福州鼓楼区，始于晋代衣冠南渡，唐末正式划定坊巷格局，由衣锦、文儒、光禄三坊与杨桥、郎官等七巷组成，是国内保存最完整的唐宋里坊制度活化石。街区占地38公顷，留存200余座明清闽式宅院，马鞍墙建筑独具地域特色。这里文脉昌盛，曾走出林则徐、严复、林觉民、冰心等大批名人，素有「一片三坊七巷，半部中国近现代史」的美誉。历经保护性修缮，如今作为活态历史街区对外开放，承载福州千年民俗与闽都文化记忆。',
+    introEn:
+      'Three Lanes and Seven Alleys is located in Gulou District, Fuzhou, Fujian Province. Its origin dates back to the Jin Dynasty migration of northern elites, with its lane pattern formally established in the late Tang Dynasty. Composed of the Three Lanes (Yijin, Wenru, Guanglu) and Seven Alleys, it is China\'s best-preserved living specimen of the Tang-Song neighbourhood system. Covering 38 hectares, the block preserves more than 200 Ming-Qing Fujian-style mansions featured with saddle-shaped walls. It nurtured numerous eminent figures including Lin Zexu, Yan Fu, Lin Juemin and Bing Xin, earning the reputation "One block of Three Lanes and Seven Alleys tells half of modern-day Chinese history." After conservation-oriented renovation, it now opens to the public as a living historic block inheriting Fuzhou\'s time-honoured folk culture.',
     findings: [
       '「坊—巷—弄」三级结构完整，明清士大夫住区范式存世孤本',
       '名人故居密度全国第一，但解说以生平为主，缺「宅邸本身」的解读',
@@ -479,20 +516,22 @@ export const STREETS: Street[] = [
     categories: ['生活', '商业', '文化'],
     tagline: '开元寺塔影下的一千三百年烟火',
     intro:
-      '西街东头是始建于唐垂拱二年（686）的开元寺，东西双塔是泉州的天际线原点。走在西街，红砖骑楼的开间里挤着面线糊与润饼皮的小店，转角抬头就是石塔。刺桐城的宋元海洋贸易遗产没有进玻璃柜——它变成了一碗四果汤。这条街回答了我们的终极问题：最好的保护，是被持续需要。',
+      '泉州西街坐落于福建泉州鲤城区，是泉州古城最早成型的街道，唐开元年间正式成街，拥有1300余年历史，也是世界文化遗产「泉州：宋元中国的世界海洋商贸中心」的重要组成部分。街巷全长1708米，唐代起便是城市主干道，宋元时期蕃汉杂居，商贸繁盛，留存开元寺、古大厝、南洋番仔楼等大量遗存。街区分布旧馆驿巷、甲第巷等古巷弄，曾牌坊林立。西街坚持活态保护，原住民世代居住于此，既承载海上丝路的历史记忆，也延续着闽南市井烟火，是泉州古城的文化核心。',
+    introEn:
+      'West Street is located in Licheng District, Quanzhou, Fujian. As the earliest-formed street in the ancient Quanzhou city, it took shape in the Kaiyuan reign of the Tang Dynasty with a history of over 1,300 years. It is an important component of the World Cultural Heritage site "Quanzhou: Emporium of the World in Song-Yuan China." Stretching 1,708 meters, it functioned as a major urban thoroughfare since the Tang Dynasty. During the Song-Yuan dynasties, local people and foreign merchants lived side by side, bringing prosperous trade. It preserves abundant heritage including Kaiyuan Temple, traditional Minnan mansions and Nanyang-style overseas-Chinese buildings. Adhering to living conservation, permanent residents still dwell here. It carries the Maritime Silk Road memories and genuine Minnan folk life, standing as the cultural heart of ancient Quanzhou.',
     findings: [
       '宗教遗产（开元寺、基督教堂）与市井生活在同一空间无缝叠压',
       '宋元「涨海声中万国商」的贸易遗产以食物、方言、信仰形式存续',
       '游客密度高但本地依赖度不减，早市与晚市是两个世界',
     ],
-    period: '唐垂拱二年（686）建寺成街',
+    period: '唐开元年间成街（713—741）',
     photoCount: 4,
     keywords: ['开元寺', '宋元海丝', '烟火气'],
   },
   {
     id: 'dongmei',
     name: '东美古街',
-    fullName: '福建省漳州市龙海区东美古街',
+    fullName: '福建省漳州市台商投资区角美镇东美古街',
     city: '漳州',
     province: '福建',
     coord: [117.8333, 24.4167],
@@ -501,7 +540,9 @@ export const STREETS: Street[] = [
     categories: ['人物', '生活'],
     tagline: '番仔厝与两段方言录音',
     intro:
-      '东美是九龙江边的小镇古街，骑楼与番仔厝（侨建南洋风格）混在一起。我们在此录下两段闽南语访谈——老人们讲述下南洋的亲人如何把「金水」（侨汇）变成街上的房子。东美让我们看到古街叙事里最容易被忽略的群体：留在家乡等待与修建的人。',
+      '东美古街坐落于福建漳州台商投资区角美镇东美村，南临九龙江北港，明弘治元年（1488年）正式设立圩市，是闽南海上丝路的一处重要商贸驿站。鼎盛时期形成「一码头、二巷、九门隘、十三街」的宏大格局，如今以太平街、后面街两条骑楼老街为核心，红砖骑楼错落排布，留存庆春香脯糕、福盛号等百年老字号遗址。街区毗邻国保单位曾氏番仔楼，融合闽南本土与南洋华侨建筑风貌，2021年入选福建省省级历史文化街区，活态延续着侨乡市井烟火与下南洋的历史记忆。',
+    introEn:
+      'Dongmei Ancient Street lies in Dongmei Village, Jiaomei Town, Zhangzhou Taiwanese Investment Zone, Fujian Province, bordering the northern harbour of the Jiulong River. It was officially established as a market town in 1488 during the Ming Dynasty, serving as a vital business station on the Maritime Silk Road of southern Fujian. At its prime, it boasted a grand layout of one wharf, two lanes, nine gate-barriers and thirteen streets. Today, Taiping Street and Houmian Street remain as the core, lined with red-brick arcaded buildings and relics of time-honored shops such as Qingchun Xiangpu Cake and Fushenghao. Adjacent to the national-protected Zeng\'s Overseas-Chinese Mansion, it blends Minnan local style with Nanyang overseas-Chinese architectural features. Listed as a Fujian Provincial Historic and Cultural Block in 2021, it preserves the living folk customs and overseas-Chinese migration memories of southern Fujian.',
     findings: [
       '侨乡建筑（番仔厝）是跨国家庭史的物证',
       '闽南语访谈揭示：古街记忆与「过番」史深度绑定',
@@ -523,9 +564,33 @@ export const STREETS: Street[] = [
         audioDuration: "04'59\"",
       },
     ],
-    period: '清末民初侨汇建街',
+    period: '明弘治元年（1488）设圩，清末民初侨汇建街',
     photoCount: 8,
-    keywords: ['番仔厝', '侨乡', '闽南语口述'],
+    keywords: ['红砖骑楼', '侨乡', '闽南语口述'],
+  },
+  {
+    id: 'tanhualin',
+    name: '昙华林',
+    fullName: '湖北省武汉市武昌区昙华林',
+    city: '武汉',
+    province: '湖北',
+    coord: [114.3092, 30.5464],
+    route: 'minchu',
+    order: 4,
+    categories: ['建筑', '历史', '文化'],
+    tagline: '中西建筑交融的六百年武昌老街',
+    intro:
+      '昙华林历史文化街区位于湖北省武汉市武昌古城，历史可追溯至明洪武四年（1371年），至今已有600多年历史。全长约1200米的老街依山而建，保留着完整的传统街巷肌理，沿线分布着50余处历史建筑。这里中西建筑风格交融，既有传统民居，也有教堂、医院、学校和名人故居，见证了武汉近代教育、革命与中外文化交流的发展。漫步昙华林，青砖灰瓦与西式建筑相映成趣，老建筑、街头艺术和特色小店交织在一起。如今，经过保护与更新，昙华林在延续历史文脉的同时融入现代文化生活，成为武汉一处兼具历史底蕴与城市活力的文化街区。',
+    introEn:
+      'The Tanhualin Historical and Cultural District is located in the ancient city of Wuchang, Wuhan, Hubei Province. Its history can be traced back to 1371, during the Ming Dynasty, giving it more than 600 years of history. Stretching for about 1,200 meters along the hills, the old street preserves its traditional urban layout and features more than 50 historic buildings. Here, Chinese and Western architectural styles exist side by side, including traditional residences, churches, hospitals, schools, and former residences of notable figures. These buildings bear witness to the development of modern education, revolutionary history, and cultural exchanges in Wuhan. Walking through Tanhualin, visitors can see traditional brick-and-tile buildings alongside Western-style architecture, street art, and distinctive shops. Today, through careful preservation and renewal, Tanhualin continues to preserve its historical heritage while embracing modern cultural life, making it a vibrant cultural district where history and contemporary life meet.',
+    findings: [
+      '中西建筑同街共存：传统民居与教堂、医院、学校、名人故居交织',
+      '50 余处历史建筑见证武汉近代教育、革命与中外文化交流',
+      '保护性更新融入街头艺术与特色小店，历史街区同时承载当代生活',
+    ],
+    period: '明洪武四年（1371）以来',
+    photoCount: 3,
+    keywords: ['中西合璧', '武昌古城', '近代教育'],
   },
   {
     id: 'chengji',
@@ -535,19 +600,21 @@ export const STREETS: Street[] = [
     province: '湖北',
     coord: [112.3833, 29.8167],
     route: 'minchu',
-    order: 4,
+    order: 5,
     categories: ['建筑', '历史'],
     tagline: '一街跨两县的明清长街',
     intro:
-      '程集老街始建于南宋，明清时是江汉平原盐粮埠镇，一条千余米的长街东属监利、西接江陵，「一街两县」。青砖灰瓦的商铺住宅连排，杉木排门与砖砌拱门交替。我们在雨后抵达，石板路上只有我们的脚步声——几乎没有游客到来的、真正的「深藏」级老街。',
+      '程集老街，位于湖北省荆州市监利市程集镇，始建于南宋嘉定年间，已有八百余年历史。这里因水陆交通便利，明代逐渐发展为江汉平原重要的商贸集散地，并因繁盛的商业往来享有「小汉口」的美誉。如今，老街仍保存着明清时期的民居、商铺、古桥和寺庙。全长约一公里的青石街道沿程家集河蜿蜒而建，形成独具特色的「鱼骨」式街巷格局。漫步老街，还能看到茶馆、酒馆、药房和传统作坊，感受延续数百年的市井生活。更值得一提的是，程集还承载着古老的荆台文化，相传春秋时期楚王曾在此筑台游观，使这座古镇兼具商贸文明与楚文化底蕴。',
+    introEn:
+      'Chengji Old Street, located in Chengji Town, Jianli, Jingzhou, Hubei Province, has a history of more than 800 years, dating back to the Southern Song Dynasty. Thanks to its convenient waterways and land routes, it developed into an important commercial center in the Jianghan Plain during the Ming Dynasty and became known as the "Little Hankou" for its thriving trade. Today, the old town preserves numerous Ming and Qing dynasty residences, shops, temples, and ancient bridges. Its nearly one-kilometer-long stone-paved street follows the Chengjia River, forming a distinctive fishbone-like street pattern. Traditional teahouses, taverns, pharmacies, and workshops still evoke the atmosphere of its historic commercial life. Chengji is also closely associated with the ancient Jingtai culture. Legend has it that Chu rulers once built a terrace here for sightseeing, adding a rich cultural dimension to this historic town.',
     findings: [
       '明清商业建筑连片度极高，整体格局未经现代拓宽',
       '「一街两县」的行政地理造成保护责任切分，两边状态不一',
       '空置率高，部分清代铺面仅用木板封存',
     ],
-    period: '南宋始建，明清为盐粮埠镇',
+    period: '南宋嘉定年间始建，明清为商贸埠镇',
     photoCount: 4,
-    keywords: ['一街两县', '盐粮埠镇', '深藏老街'],
+    keywords: ['一街两县', '小汉口', '鱼骨格局'],
     heritage: '中国历史文化名镇',
   },
   {
@@ -558,17 +625,19 @@ export const STREETS: Street[] = [
     province: '湖北',
     coord: [114.3417, 29.8267],
     route: 'minchu',
-    order: 5,
+    order: 6,
     categories: ['历史', '建筑'],
     tagline: '北伐名将之桥，一河两岸小汉口',
     intro:
-      '汀泗桥以 1926 年北伐汀泗桥战役闻名，但这条依淦河而建的老街历史悠久得多——宋代建桥成集，号称「小汉口」。铁桥、石桥、老街与北伐纪念馆在两百米内层层叠压。战争记忆、水运记忆与市井记忆在同一地点交汇，是全程「记忆密度」最高的地点之一。',
+      '汀泗桥古街位于湖北省咸宁市，是一座拥有八百余年历史的古镇。始建于南宋淳祐七年（1247年）的汀泗桥，连接汀泗河两岸，也见证了古镇由交通要地发展为商贸重镇的历程。明清时期，东西两街商铺林立，108个百年老字号沿街分布，长条麻石铺成的街道至今仍保留着古朴风貌。古街现存众多明清建筑，包括三泰行、醉仙阁、章氏古宅以及竹厂街等，展现了鄂南传统民居与商业建筑的特色。历史上，汀泗河曾是蒲圻县与咸宁县的界河，古镇东西两街也因此形成独特的地域文化。今天，古老的石板街与传统建筑依然诉说着这座千年古镇的繁华往事与历史变迁。',
+    introEn:
+      'Tingsiqiao Ancient Street, located in Xianning, Hubei Province, is a historic town with more than 800 years of history. The Tingsiqiao stone bridge, built in 1247 during the Southern Song Dynasty, connected the two banks of the Tingsi River and witnessed the town\'s transformation from a transportation hub into a thriving commercial center. During the Ming and Qing dynasties, shops lined the East and West Streets, with 108 long-established businesses operating along the streets. Paved with long slabs of stone, the old streets still retain their traditional character. Historic buildings such as Santaihang, Zuixian Pavilion, the Zhang family residence, and Zhuchang Street showcase the architectural and commercial heritage of southern Hubei. Historically, the Tingsi River also served as the boundary between Puqi and Xianning counties, giving the town a distinctive regional identity. Today, its stone streets and historic buildings continue to tell stories of prosperity, change, and everyday life across eight centuries.',
     findings: [
       '北伐战役遗产（陵园、铁桥）与古街在步行范围内完整共存',
       '「小汉口」码头文化留下大量商埠建筑细节',
       '红色旅游线路成熟，但古街自身的生活叙事几乎未被讲述',
     ],
-    period: '宋代建桥成集，1926 北伐战役地',
+    period: '南宋淳祐七年（1247）建桥成集，1926 北伐战役地',
     photoCount: 3,
     keywords: ['北伐战役', '小汉口', '记忆叠压'],
   },

@@ -248,7 +248,7 @@ function ArchiveIndex({ onOpen }: { onOpen: (id: string) => void }) {
         <div>
           <div className="kicker">INDEX / 全部地点</div>
           <h2 className="mt-3 font-serif-sc text-[38px] font-bold leading-tight max-md:text-[28px]">
-            二十三站 · 实践档案总表
+            二十四站 · 实践档案总表
           </h2>
         </div>
         <p className="hidden max-w-[300px] text-right font-mono text-[10px] leading-relaxed tracking-[0.1em] text-[#A8A296] uppercase md:block">

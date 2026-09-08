@@ -22,12 +22,16 @@ export interface Street {
   categories: Category[];
   /** 一句话定位 */
   tagline: string;
-  /** 编辑部导语（档案卡主文） */
+  /** 档案导语（调研资料中文部分） */
   intro: string;
+  /** 档案导语英文部分（如有） */
+  introEn?: string;
   /** 田野发现 */
   findings: string[];
   /** 采访摘录（如有真实口述则用真实内容） */
   interviews?: Interview[];
+  /** 双语口述故事（来自调研 docx，按原档顺序） */
+  stories?: Story[];
   /** 历史年代 */
   period: string;
   /** 照片目录 = /photos/<id>/NN.jpg, dims from media-manifest */
@@ -36,6 +40,15 @@ export interface Street {
   keywords: string[];
   /** 保护级别 */
   heritage?: string;
+}
+
+/** 双语口述故事（来自调研 docx） */
+export interface Story {
+  /** 中文标题（不含「故事N」前缀） */
+  title: string;
+  titleEn: string;
+  text: string;
+  textEn: string;
 }
 
 export interface Interview {

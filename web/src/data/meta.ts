@@ -1,7 +1,7 @@
 /** 站点级元信息：统计口径、实践时间、结语发现 */
 
 export const STATS = {
-  streets: 23,
+  streets: 24,
   provinces: 11,
   photos: 119,
   interviews: 6,

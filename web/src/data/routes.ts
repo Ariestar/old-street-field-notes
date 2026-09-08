@@ -42,8 +42,8 @@ export const ROUTES: Route[] = [
     name: '闽楚线',
     en: 'MIN-CHU LINE',
     color: '#7D5A5A',
-    story: '从三坊七巷的近代群像，到泉州海丝烟火、漳州侨乡，再到两湖的明清长街与北伐名桥，五站收束全程。',
-    streetIds: ['sanfang', 'xijie', 'dongmei', 'chengji', 'tingsiqiao'],
+    story: '从三坊七巷的近代群像，到泉州海丝烟火、漳州侨乡，再到武汉武昌、两湖的明清长街与北伐名桥，六站收束全程。',
+    streetIds: ['sanfang', 'xijie', 'dongmei', 'tanhualin', 'chengji', 'tingsiqiao'],
   },
 ];
 

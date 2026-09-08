@@ -55,7 +55,7 @@ export function ScrollCover() {
             <span className="h-[1px] w-10 bg-[#8B2F2F]" />
           </div>
           <p className="mx-auto mt-4 max-w-[560px] font-serif-sc text-[13px] leading-[1.9] text-[#3A372F] max-md:hidden">
-            我们用二十一天，走过十一省二十三条古街——记录行走、观察、采访与拍摄。
+            我们用二十一天，走过十一省二十四条古街——记录行走、观察、采访与拍摄。
             这不是一张旅游地图，而是一次田野实践的数字档案。
           </p>
         </div>

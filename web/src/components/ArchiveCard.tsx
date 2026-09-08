@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import type { Street } from '../data/types';
+import type { Street, Story } from '../data/types';
+import { ORAL_STORIES } from '../data/stories';
 import { photosOf, photoUrl } from '../data/media';
 
 /**
@@ -147,8 +149,26 @@ function CardInner({
         {/* 编辑部导语 */}
         <div className="mt-7">
           <div className="kicker">观察记录 / OBSERVATION</div>
-          <p className="mt-2.5 text-[14px] leading-[1.95] text-[#3A372F]">{street.intro}</p>
+          <p className="mt-2.5 font-serif-sc text-[14px] leading-[1.95] text-[#3A372F]">{street.intro}</p>
+          {street.introEn && (
+            <div className="mt-4 border-t border-dashed border-[#C4BCA8] pt-3.5">
+              <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#A8A296]">English</div>
+              <p className="mt-1.5 text-[12.5px] leading-[1.85] text-[#5C574C]">{street.introEn}</p>
+            </div>
+          )}
         </div>
+
+        {/* 口述故事 */}
+        {(ORAL_STORIES[street.id]?.length ?? 0) > 0 && (
+          <div className="mt-8">
+            <div className="kicker">口述故事 / ORAL STORIES</div>
+            <div className="mt-3 space-y-4">
+              {ORAL_STORIES[street.id].map((st, i) => (
+                <StoryBlock key={i} story={st} no={i + 1} />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* 采访摘录 */}
         {street.interviews?.map((iv, i) => (
@@ -228,5 +248,35 @@ function CardInner({
         </button>
       </footer>
     </div>
+  );
+}
+
+/** 单则双语口述故事：中文为主，英文折叠 */
+function StoryBlock({ story, no }: { story: Story; no: number }) {
+  const [openEn, setOpenEn] = useState(false);
+  return (
+    <article className="border-l-2 border-[#B89B67] bg-[#EFE9DC]/70 px-5 py-4">
+      <h3 className="font-serif-sc text-[15px] font-bold leading-snug text-[#1B1B1B]">
+        <span className="mr-2 font-mono text-[10px] font-normal tracking-[0.14em] text-[#B89B67]">
+          {String(no).padStart(2, '0')}
+        </span>
+        {story.title}
+      </h3>
+      <p className="mt-1.5 text-[13px] leading-[1.9] text-[#3A372F]">{story.text}</p>
+
+      <button
+        onClick={() => setOpenEn((v) => !v)}
+        className="mt-2.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A8A296] transition-colors hover:text-[#8B2F2F]"
+        aria-expanded={openEn}
+      >
+        {openEn ? '− Hide English' : '+ English'}
+      </button>
+      {openEn && (
+        <div className="mt-1.5">
+          <div className="font-serif-sc text-[13.5px] font-bold text-[#3A372F]">{story.titleEn}</div>
+          <p className="mt-1 text-[12px] leading-[1.8] text-[#5C574C]">{story.textEn}</p>
+        </div>
+      )}
+    </article>
   );
 }
