@@ -14,6 +14,7 @@ import { MapLegend } from './components/WalkPlayer';
 import { WalkControls, WalkPlayer } from './components/WalkPlayer';
 import { ArchiveCard } from './components/ArchiveCard';
 import { NodeTooltip, RouteFilter } from './components/MapOverlays';
+import { MapDecorations } from './components/MapDecorations';
 import { Findings } from './components/Findings';
 import { Closing } from './components/Closing';
 import { TopNav } from './components/TopNav';
@@ -195,6 +196,8 @@ export default function App() {
               </div>
             </div>
             <NodeTooltip hoverId={hoverId} screenPos={tooltipPos} />
+            {/* 水彩装饰插画：红日/飞鸟/祥云/雾山/帆船，低 zoom 显示 */}
+            <MapDecorations map={map} />
           </>
         )}
       </div>

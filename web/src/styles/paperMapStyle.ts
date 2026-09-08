@@ -1,11 +1,13 @@
 import type { StyleSpecification } from 'maplibre-gl';
 import type { FeatureCollection } from 'geojson';
 import provinces from '../data/provinces.json';
+import chinaMask from '../data/china-mask.json';
 
 /**
  * 纸感水彩底图 —— 参考《中国山河锦绣》水彩地图设计。
  * 米白纸底 / 九省淡彩晕染 / 朱红日轮 / 淡墨山雾，隐藏大部分 POI 噪音，
  * 保留水系、道路骨架、建筑体量与少量城市标注。
+ * 境外以「世界矩形挖去中国」的纸底遮罩省略——整幅地图只剩纸上的中国。
  */
 
 // 水彩淡彩 —— 每省一色，低饱和、半透明叠在纸底上
@@ -38,6 +40,10 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
     provinces: {
       type: 'geojson',
       data: provinces as FeatureCollection,
+    },
+    chinamask: {
+      type: 'geojson',
+      data: chinaMask as FeatureCollection,
     },
   },
   layers: [
@@ -335,7 +341,48 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
         'text-halo-width': 1.4,
       },
     },
-    // ---- 海域名（黄海/东海/南海，参考图边缘标注） ----
+    {
+      id: 'label-country',
+      type: 'symbol',
+      source: 'openmaptiles',
+      'source-layer': 'place',
+      filter: ['==', ['get', 'class'], 'country'],
+      layout: {
+        'text-field': ['coalesce', ['get', 'name:zh-Hans'], ['get', 'name:zh'], ['get', 'name:latin'], ['get', 'name']],
+        'text-font': ['Noto Sans Regular'],
+        'text-size': 14,
+        'text-letter-spacing': 0.35,
+        'text-transform': 'uppercase',
+      },
+      paint: {
+        'text-color': '#A8A08C',
+        'text-halo-color': '#F1EDE2',
+        'text-halo-width': 1.4,
+      },
+    },
+    // ---- 境外遮罩：世界矩形挖去中国，把国外一切瓦片内容盖成纸底 ----
+    {
+      id: 'china-mask-fill',
+      type: 'fill',
+      source: 'chinamask',
+      filter: ['==', ['get', 'part'], 'mask'],
+      paint: {
+        'fill-color': '#F1EDE2',
+        'fill-opacity': 1,
+      },
+    },
+    // ---- 境内暖染：让中国本土读作画纸上的水彩主体 ----
+    {
+      id: 'china-warm',
+      type: 'fill',
+      source: 'chinamask',
+      filter: ['==', ['get', 'part'], 'warm'],
+      paint: {
+        'fill-color': '#EFE6D2',
+        'fill-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.5, 7, 0.3, 9.5, 0],
+      },
+    },
+    // ---- 海域名：画在遮罩之上（黄海/东海/南海在纸底上仍可见） ----
     {
       id: 'label-sea',
       type: 'symbol',
@@ -355,23 +402,17 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
         'text-halo-width': 1.4,
       },
     },
+    // ---- 国界线描（参考图手绘朱墨描边） ----
     {
-      id: 'label-country',
-      type: 'symbol',
-      source: 'openmaptiles',
-      'source-layer': 'place',
-      filter: ['==', ['get', 'class'], 'country'],
-      layout: {
-        'text-field': ['coalesce', ['get', 'name:zh-Hans'], ['get', 'name:zh'], ['get', 'name:latin'], ['get', 'name']],
-        'text-font': ['Noto Sans Regular'],
-        'text-size': 14,
-        'text-letter-spacing': 0.35,
-        'text-transform': 'uppercase',
-      },
+      id: 'china-outline-line',
+      type: 'line',
+      source: 'chinamask',
+      filter: ['==', ['get', 'part'], 'warm'],
+      layout: { 'line-join': 'round' },
       paint: {
-        'text-color': '#A8A08C',
-        'text-halo-color': '#F1EDE2',
-        'text-halo-width': 1.4,
+        'line-color': '#A85F4A',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 3, 1, 6, 1.8, 9, 2.6],
+        'line-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.85, 8, 0.5],
       },
     },
   ],
