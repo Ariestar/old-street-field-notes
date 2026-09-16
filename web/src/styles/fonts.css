@@ -1,0 +1,17 @@
+/* 由 scripts/subset-font.mjs 生成，请勿手改。
+   霞鹜文楷按本站语料子集化（SIL OFL）。重新生成：bun scripts/subset-font.mjs */
+@font-face {
+  font-family: 'LXGW WenKai';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/lxgw-wenkai-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'LXGW WenKai';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/lxgw-wenkai-700.woff2') format('woff2');
+}

@@ -1,8 +1,8 @@
 /** media-manifest.json 的形状 */
-export type MediaManifest = Record<string, { f: string; w: number; h: number }[]>;
+type MediaManifest = Record<string, { f: string; w: number; h: number }[]>;
 
 import manifest from './media-manifest.json';
-export const MEDIA = manifest as MediaManifest;
+const MEDIA = manifest as MediaManifest;
 
 /** 取某条街第 i 张照片的 URL（0-based）；BASE_URL 兼容子路径部署（GitHub Pages 等） */
 export const photoUrl = (streetId: string, i: number) =>

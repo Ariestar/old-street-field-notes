@@ -2,24 +2,57 @@
 @import "maplibre-gl/dist/maplibre-gl.css";
 
 @theme {
-  --font-serif-sc: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  /* 中文正文改用自托管的霞鹜文楷（见 fonts.css，按本站语料子集化） */
+  --font-serif-sc: "LXGW WenKai", "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-kai: "Kaiti SC", "STKaiti", "KaiTi", "LXGW WenKai", cursive;
   --font-sans: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
 
-  --color-paper: #F3F0E8;
-  --color-paper-deep: #EAE5D8;
+  /* ── 纸与墨：对齐 JIANZI 的暖色纸系（纯黑从不从印刷机里出来） ── */
+  --color-paper: #F4EFE4;
+  --color-paper-deep: #E9E3D5;
   --color-paper-warm: #EFE9DC;
-  --color-ink: #1B1B1B;
-  --color-ink-soft: #3A372F;
-  --color-muted: #77736A;
-  --color-faint: #A8A296;
+  --color-paper-edge: #E2DAC9;
+  --color-ink: #1F1C18;
+  --color-ink-soft: #4A453C;
+  --color-muted: #6B655C;
+  --color-faint: #A49D92;
+  --color-line: #CBC3B4;
+  --color-line-dark: #BCB3A0;
+
+  /* 深色段的「卡纸」：同一套纸语言里的另一种纸。
+     注意值比成品更暗：soft-light 叠一张近白纹理会把底色抬起来
+     （实测 rgb(36,31,25) 会被抬到 ≈rgb(93,85,73)），
+     所以这里用 #0A0907 作底，渲染出来才落在 ≈#241F19 的深卡纸上。 */
+  --color-kraft: #0A0907;
+  --color-kraft-edge: #3A332A;
+
+  /* 第二张纸（便签/纸条）与它唯一的手写墨色：蓝铅笔 */
+  --color-slip: #E3D6BB;
+  --color-slip-edge: #CDBC9A;
+  --color-pencil: #3F4A6B;
+
+  /* 套印偏色红：印刷跑偏的副版，刻意比印章朱红更亮更饱和 */
+  --color-registration: #B5412F;
+
   --color-vermilion: #8B2F2F;
   --color-vermilion-deep: #6E2323;
   --color-gold: #B89B67;
   --color-seal: #A63D2F;
-  --color-line: #D8D2C4;
-  --color-line-dark: #C4BCA8;
 
+  --leading-reading: 1.95;
+
+  /* ── 动效刻度：与 src/lib/motion.ts 的 DUR / EASE 一一对应，
+       让 CSS 过渡和 framer 动画共用同一把尺 ── */
+  --ease-standard: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --duration-instant: 180ms;
+  --duration-quick: 340ms;
+  --duration-base: 550ms;
+  --duration-settle: 720ms;
+  --duration-slow: 950ms;
+
+  /* 旧名保留为别名，避免一次性改动过大 */
   --ease-documentary: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -38,7 +71,7 @@ body {
 
 ::selection {
   background: rgba(139, 47, 47, 0.85);
-  color: #F3F0E8;
+  color: #F4EFE4;
 }
 
 /* ---- custom scrollbar, archive style ---- */
@@ -60,32 +93,15 @@ body {
   width: 100%;
   height: 100%;
 }
-.maplibregl-ctrl-group {
-  background: rgba(243, 240, 232, 0.92) !important;
-  border: 1px solid var(--color-line-dark) !important;
-  border-radius: 0 !important;
-  box-shadow: 2px 2px 0 rgba(27,27,27,0.12) !important;
-  overflow: hidden;
-}
-.maplibregl-ctrl-group button {
-  width: 34px !important;
-  height: 34px !important;
-}
-.maplibregl-ctrl-group button + button {
-  border-top: 1px solid var(--color-line) !important;
-}
-.maplibregl-ctrl-group button span {
-  filter: grayscale(1) sepia(0.35) brightness(0.5) !important;
-}
 .maplibregl-ctrl-attrib {
-  background: rgba(243, 240, 232, 0.75) !important;
+  background: rgba(244, 239, 228, 0.75) !important;
   font-family: var(--font-mono);
   font-size: 9px !important;
   color: var(--color-faint) !important;
 }
 .maplibregl-ctrl-attrib a { color: var(--color-faint) !important; }
 .maplibregl-ctrl-scale {
-  background: rgba(243,240,232,0.7) !important;
+  background: rgba(244, 239, 228, 0.7) !important;
   border-color: var(--color-muted) !important;
   color: var(--color-muted) !important;
   font-family: var(--font-mono);
@@ -107,22 +123,95 @@ body {
   mix-blend-mode: multiply;
 }
 
-/* ---- archival image treatment ---- */
+/* ---- 纸：全站唯一的纸原语 ----
+   色 + 纤维 + 毛边 + 双阴影全长在 __sheet 这一层上，内容待在它上面。
+
+   为什么纸必须是独立图层，而不是直接做在容器上：
+   1) 毛边是位移滤镜，做在容器上会把纸上的字一起揉歪；
+   2) filter 会让元素成为 position:fixed 后代的包含块，
+      做在容器上会把卡内 sticky footer 之类的定位打散。
+
+   整组放进 @layer components：未分层的规则会压过 Tailwind 的 utilities 层
+   （与优先级无关），那样 .paper 的 position:relative 会盖掉组件上的
+   fixed/absolute，档案卡就会掉出视口。 */
+@layer components {
+  .paper {
+    position: relative;
+    isolation: isolate;
+  }
+  .paper__sheet {
+    position: absolute;
+    inset: 0;
+    /* -1 而不是 0：负 z-index 落在纸色之上、一切内容之下，
+       元素子节点和纯文本子节点都压得住（纯文本没有盒子，选择器选不到） */
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--paper-tone, var(--color-paper));
+    /* 两层同一张纤维、错开偏移后相乘：纹理对比度翻倍（单层太淡、几乎看不见），
+       顺带把平铺的周期感也打散 */
+    background-image: url("../assets/paper/card-1.webp"), url("../assets/paper/card-1.webp");
+    background-repeat: repeat;
+    /* 浅色纸用 multiply 压纤维；深色纸必须改用 soft-light ——
+       近白纹理 multiply 到深底上等于没有 */
+    background-blend-mode: var(--paper-blend, multiply);
+    background-position:
+      var(--paper-x, 0) var(--paper-y, 0),
+      calc(var(--paper-x, 0) + 311px) calc(var(--paper-y, 0) + 173px);
+    /* 接触阴影 + 投影：纸是「放」在底图上的，不是画上去的 */
+    box-shadow:
+      0 1px 1px rgba(60, 50, 35, 0.16),
+      0 8px 18px -6px rgba(60, 50, 35, 0.3);
+    /* 毛边。用独立的 rotate 而不是 transform: rotate()：
+       framer-motion 会写内联 transform，用 transform 会被它整个覆盖掉 */
+    filter: var(--deckle, none);
+    rotate: var(--paper-tilt, 0deg);
+  }
+
+  /* 深色纸片：贴在深色卡纸上的那一类。
+     只用一层纹理 —— 浅色纸叠两层是为了把近白的纤维压出来，
+     深色纸叠两层等于把 soft-light 抬升做两遍，会灰掉。 */
+  .paper--dark .paper__sheet {
+    --paper-blend: soft-light;
+    background-image: url("../assets/paper/card-1.webp");
+  }
+
+  /* ---- 套印偏色标题：副版错位微旋，主版压在上面 ----
+     两层共用同一个 box，断行才会完全一致 */
+  .plate {
+    position: relative;
+    display: block;
+  }
+  .plate__ghost {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: var(--color-registration);
+    opacity: 0.45;
+    translate: var(--plate-x, 1.2px) var(--plate-y, 0.8px);
+    rotate: var(--plate-rot, -0.22deg);
+    transform-origin: 0 50%;
+  }
+  .plate__ink {
+    position: relative;
+    color: inherit;
+  }
+
+  /* ---- 深色卡纸：近白 multiply 叠在深色上会消失，改走 soft-light ---- */
+  .paper-kraft {
+    background-color: var(--color-kraft);
+    background-image: url("../assets/paper/card-1.webp");
+    background-repeat: repeat;
+    background-blend-mode: soft-light;
+    background-position: var(--paper-x, 0) var(--paper-y, 0);
+  }
+}
+
+/* ---- 档案照片的「报纸化」：去饱和 + 提反差，像印在纸上而不是贴上去 ---- */
 .photo-archival {
-  filter: sepia(0.14) saturate(0.82) contrast(0.98) brightness(1.01);
+  filter: saturate(0.55) contrast(1.08) brightness(1.01);
   transition: filter 0.8s var(--ease-documentary);
 }
-.photo-archival:hover { filter: sepia(0) saturate(1) contrast(1); }
-
-/* ---- fine ruled lines ---- */
-.rule-h { height: 1px; background: var(--color-line); }
-.rule-dark { height: 1px; background: var(--color-line-dark); }
-
-/* ---- vertical writing ---- */
-.v-text {
-  writing-mode: vertical-rl;
-  letter-spacing: 0.35em;
-}
+.photo-archival:hover { filter: saturate(0.95) contrast(1.03); }
 
 /* ---- kicker / metadata label ---- */
 .kicker {
@@ -134,9 +223,9 @@ body {
 }
 
 /* ---- keyframes ---- */
-@keyframes pulse-ring {
-  0%   { transform: scale(0.6); opacity: 0.9; }
-  100% { transform: scale(2.4); opacity: 0; }
+@keyframes scroll-cue {
+  0%, 100% { transform: translateY(0); opacity: 0.75; }
+  50%      { transform: translateY(5px); opacity: 1; }
 }
 @keyframes dash-flow {
   to { stroke-dashoffset: -24; }

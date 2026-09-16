@@ -1,14 +1,9 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import maplibregl, { type Map as MLMap, type StyleSpecification } from 'maplibre-gl';
-
-/** 共享单例容器 —— 首屏 hero 与滚动阶段共用同一张地图 */
-export interface MapBundle {
-  map: MLMap;
-}
 
 /**
  * 创建持久地图实例。地图挂在一个常驻 DOM 容器上，
- * 由 App 通过 portal 控制其视口位置（首屏 100vh → 双栏阶段）。
+ * 由 App 控制其视口位置（首屏 100vh → 常驻底图）。
  */
 export function useMapLibre(
   containerRef: React.RefObject<HTMLDivElement | null>,
@@ -53,15 +48,4 @@ export function useMapLibre(
   }, []);
 
   return { map: mapRef.current, ready };
-}
-
-/** 相机飞行 promise */
-export function useFlyTo(map: MLMap | null) {
-  return useCallback(
-    (center: [number, number], zoom: number, duration = 1600, pitch = 0) => {
-      if (!map) return;
-      map.flyTo({ center, zoom, duration, essential: false, pitch, curve: 1.3 });
-    },
-    [map],
-  );
 }

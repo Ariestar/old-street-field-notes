@@ -35,7 +35,6 @@ export const STREETS: Street[] = [
       },
     ],
     period: '清康熙五十七年（1718）至今',
-    photoCount: 6,
     keywords: ['满城胡同', '川西民居', '古街 IP 化'],
     heritage: '中国历史文化名街',
   },
@@ -58,7 +57,6 @@ export const STREETS: Street[] = [
       '夜间灯光设计刻意压暗现代元素，制造「古意」',
     ],
     period: '2004 年建成（文化原型：秦汉）',
-    photoCount: 4,
     keywords: ['仿古街区', '三国叙事', '再造古街'],
   },
   {
@@ -98,7 +96,6 @@ export const STREETS: Street[] = [
       },
     ],
     period: '先秦据点，汉代茶市，明清成「七街九巷」',
-    photoCount: 7,
     keywords: ['千年水码头', '口述史', '火龙灯舞'],
     heritage: '中国历史文化名镇',
   },
@@ -123,7 +120,6 @@ export const STREETS: Street[] = [
       '与两条马路外的张公桥美食街形成三十年时代断层',
     ],
     period: '清代形成，民国定型',
-    photoCount: 9,
     keywords: ['原生市井', '危房', '老龄化街区'],
   },
   {
@@ -147,7 +143,6 @@ export const STREETS: Street[] = [
       '赶场日人流溢出到机动车道，街道空间被重新占有',
     ],
     period: '明清街基，现房多为 1950–80 年代',
-    photoCount: 2,
     keywords: ['川陕驿道', '核桃街', '街道生活'],
   },
   {
@@ -171,7 +166,6 @@ export const STREETS: Street[] = [
       '盐运叙事一枝独秀：井盐遗产与街区形成完整的产业动线',
     ],
     period: '北周始建，隋定名「仙滩」，明清因盐鼎盛',
-    photoCount: 3,
     keywords: ['盐运第一镇', '釜溪河', '川盐济楚'],
     heritage: '中国历史文化名镇',
   },
@@ -205,7 +199,6 @@ export const STREETS: Street[] = [
       },
     ],
     period: '宋代成湖成街，元明清三代发展',
-    photoCount: 16,
     keywords: ['老茶馆', '录音访谈', '活态遗产'],
   },
   // ─────────────────────────── 滇云线 ───────────────────────────
@@ -230,7 +223,6 @@ export const STREETS: Street[] = [
       '街巷格局保存完整，毗邻文庙，是「文」字辈街巷的代表',
     ],
     period: '明代形成，民国初年定名',
-    photoCount: 5,
     keywords: ['南国文明坊', '老字号', '崇文重教'],
   },
   {
@@ -254,7 +246,6 @@ export const STREETS: Street[] = [
       '甘美医院旧址等关键节点无任何解说系统',
     ],
     period: '元代码头，清代定名，1910 年后成法式街区',
-    photoCount: 6,
     keywords: ['法式建筑', '云津夜市', '梁思成林徽因'],
   },
   {
@@ -278,7 +269,6 @@ export const STREETS: Street[] = [
       '1937 年定名、全长 1930 米，曾是滇黔公路起点',
     ],
     period: '唐永泰元年（765）拓东城建城以来',
-    photoCount: 5,
     keywords: ['拓东城', '地藏寺经幢', '状元楼'],
   },
   // ─────────────────────────── 中原线 ───────────────────────────
@@ -303,7 +293,6 @@ export const STREETS: Street[] = [
       '网红化周期明显：店铺更替率极高，「打卡经济」主导业态',
     ],
     period: '元大都建城（1267）以来',
-    photoCount: 5,
     keywords: ['元大都里坊', '胡同折叠', '打卡经济'],
   },
   {
@@ -327,7 +316,6 @@ export const STREETS: Street[] = [
       '古槐树龄逾七百年，是街道最重要的「活」构成要素',
     ],
     period: '元大德十年（1306）建国子监以来',
-    photoCount: 5,
     keywords: ['孔庙', '礼制空间', '古槐'],
     heritage: '中国历史文化名街',
   },
@@ -352,7 +340,6 @@ export const STREETS: Street[] = [
       '关公形象被过度消费，符号密度高于内容密度',
     ],
     period: '2021 年开街（文化原型：河东盐池）',
-    photoCount: 3,
     keywords: ['关公文化', '仿古夜经济', '文字遗产'],
   },
   {
@@ -374,7 +361,6 @@ export const STREETS: Street[] = [
       '老字号匾额楹联原物存留多，是未收录的匾额档案库',
     ],
     period: '明清晋商鼎盛期形成',
-    photoCount: 1,
     keywords: ['票号', '渠家大院', '原真性'],
     heritage: '中国历史文化名街',
   },
@@ -399,7 +385,6 @@ export const STREETS: Street[] = [
       '建筑为清末民初豫东风格，修缮中保留了黑漆金字的门面传统',
     ],
     period: '北宋高头街，清乾隆间定名',
-    photoCount: 3,
     keywords: ['文房四宝', '功能延续', '北宋东京'],
   },
   {
@@ -423,7 +408,6 @@ export const STREETS: Street[] = [
       '四条街道业态迥异：南街小吃、东街百货、西街祭祀、北街学校',
     ],
     period: '明嘉靖年间四牌楼',
-    photoCount: 4,
     keywords: ['四牌楼', '县城日常', '共生使用'],
     heritage: '中国历史文化名街',
   },
@@ -449,7 +433,6 @@ export const STREETS: Street[] = [
       '水陆双棋盘是街—河共生范式，桥梁是空间记忆的锚点',
     ],
     period: '南宋《平江图》（1229）已载',
-    photoCount: 3,
     keywords: ['宋代平江图', '河街并行', '评弹昆曲'],
     heritage: '中国历史文化名街',
   },
@@ -474,7 +457,6 @@ export const STREETS: Street[] = [
       '夜色中的灯笼序列是刻意设计，与街巷尺度精确匹配',
     ],
     period: '南宋肇始，元末明初成街，明清定型',
-    photoCount: 6,
     keywords: ['徽派建筑', '新安江码头', '双系统街区'],
     heritage: '中国历史文化名街',
   },
@@ -500,7 +482,6 @@ export const STREETS: Street[] = [
       '马鞍墙、插屏门等建筑语汇构成独立的美学系统',
     ],
     period: '晋唐坊巷制，明清格局存世',
-    photoCount: 3,
     keywords: ['近代史', '马鞍墙', '林觉民'],
     heritage: '中国历史文化名街',
   },
@@ -525,7 +506,6 @@ export const STREETS: Street[] = [
       '游客密度高但本地依赖度不减，早市与晚市是两个世界',
     ],
     period: '唐开元年间成街（713—741）',
-    photoCount: 4,
     keywords: ['开元寺', '宋元海丝', '烟火气'],
   },
   {
@@ -565,7 +545,6 @@ export const STREETS: Street[] = [
       },
     ],
     period: '明弘治元年（1488）设圩，清末民初侨汇建街',
-    photoCount: 8,
     keywords: ['红砖骑楼', '侨乡', '闽南语口述'],
   },
   {
@@ -589,7 +568,6 @@ export const STREETS: Street[] = [
       '保护性更新融入街头艺术与特色小店，历史街区同时承载当代生活',
     ],
     period: '明洪武四年（1371）以来',
-    photoCount: 3,
     keywords: ['中西合璧', '武昌古城', '近代教育'],
   },
   {
@@ -613,7 +591,6 @@ export const STREETS: Street[] = [
       '空置率高，部分清代铺面仅用木板封存',
     ],
     period: '南宋嘉定年间始建，明清为商贸埠镇',
-    photoCount: 4,
     keywords: ['一街两县', '小汉口', '鱼骨格局'],
     heritage: '中国历史文化名镇',
   },
@@ -638,7 +615,6 @@ export const STREETS: Street[] = [
       '红色旅游线路成熟，但古街自身的生活叙事几乎未被讲述',
     ],
     period: '南宋淳祐七年（1247）建桥成集，1926 北伐战役地',
-    photoCount: 3,
     keywords: ['北伐战役', '小汉口', '记忆叠压'],
   },
 ];

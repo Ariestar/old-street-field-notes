@@ -1,10 +1,5 @@
 export type Category = '建筑' | '人物' | '商业' | '文化' | '生活' | '历史';
 
-export interface GeoPoint {
-  /** [lng, lat] */
-  coord: [number, number];
-}
-
 export interface Street {
   id: string;
   /** 街名, e.g. 宽窄巷子 */
@@ -30,12 +25,8 @@ export interface Street {
   findings: string[];
   /** 采访摘录（如有真实口述则用真实内容） */
   interviews?: Interview[];
-  /** 双语口述故事（来自调研 docx，按原档顺序） */
-  stories?: Story[];
   /** 历史年代 */
   period: string;
-  /** 照片目录 = /photos/<id>/NN.jpg, dims from media-manifest */
-  photoCount: number;
   /** 关键词 */
   keywords: string[];
   /** 保护级别 */
@@ -56,7 +47,6 @@ export interface Interview {
   age?: number;
   role: string;
   quote: string;
-  context?: string;
   audio?: string;
   audioDuration?: string;
 }

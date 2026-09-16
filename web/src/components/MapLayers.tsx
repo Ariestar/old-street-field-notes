@@ -73,7 +73,7 @@ export function MapLayers({
         source: NODE_SRC,
         paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 7.5, 8, 12, 12, 22],
-          'circle-color': '#F1EDE2',
+          'circle-color': '#F4EFE4',
         },
       });
     }
@@ -89,7 +89,7 @@ export function MapLayers({
             12, ['case', ['boolean', ['feature-state', 'hover'], false], 16, 11]],
           'circle-color': ['get', 'color'],
           'circle-stroke-width': 1.4,
-          'circle-stroke-color': '#3A372F',
+          'circle-stroke-color': '#4A453C',
         },
       });
     }
@@ -107,8 +107,8 @@ export function MapLayers({
           'text-anchor': 'top',
         },
         paint: {
-          'text-color': '#1B1B1B',
-          'text-halo-color': '#F1EDE2',
+          'text-color': '#1F1C18',
+          'text-halo-color': '#F4EFE4',
           'text-halo-width': 2.2,
         },
       });

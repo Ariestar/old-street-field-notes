@@ -2,7 +2,7 @@ import type { Route, RouteId } from './types';
 
 /**
  * 五条巡礼路线 —— 按地理分区组织的一次「中国古街大行走」。
- * 顺序即路线播放顺序。
+ * 顺序即档案总表与图例中的陈列顺序。
  */
 export const ROUTES: Route[] = [
   {
@@ -46,7 +46,5 @@ export const ROUTES: Route[] = [
     streetIds: ['sanfang', 'xijie', 'dongmei', 'tanhualin', 'chengji', 'tingsiqiao'],
   },
 ];
-
-export const ROUTE_ORDER: RouteId[] = ['bashu', 'dianyun', 'zhongyuan', 'jiangnan', 'minchu'];
 
 export const routeById = (id: RouteId) => ROUTES.find((r) => r.id === id)!;
