@@ -49,7 +49,7 @@ export function ProvArtLayer({ map }: { map: MLMap | null }) {
   return (
     <div
       aria-hidden
-      className={`pointer-events-none absolute inset-0 z-[6] overflow-hidden transition-opacity duration-700 ${
+      className={`pointer-events-none absolute inset-0 z-[6] overflow-visible transition-opacity duration-700 ${
         fade ? 'opacity-0' : 'opacity-100'
       }`}
     >
