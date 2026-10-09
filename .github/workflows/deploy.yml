@@ -20,18 +20,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 包管理器与仓库保持一致：pnpm-lock.yaml 已删除，改用 bun + bun.lock
-      - uses: oven-sh/setup-bun@v2
+      - uses: pnpm/action-setup@v4
         with:
-          bun-version: 1.4.2
+          version: 12.3.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
 
       - name: Install dependencies
         working-directory: web
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         working-directory: web
-        run: bun run build
+        run: pnpm build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

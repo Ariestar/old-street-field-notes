@@ -1,5 +1,5 @@
-import type { StyleSpecification } from 'maplibre-gl';
-import type { FeatureCollection } from 'geojson';
+import type { FilterSpecification, StyleSpecification } from 'maplibre-gl';
+import type { FeatureCollection, MultiPolygon } from 'geojson';
 import provinces from '../data/provinces.json';
 import chinaMask from '../data/china-mask.json';
 
@@ -28,6 +28,13 @@ const provExpr = ['match', ['get', 'name']] as unknown[];
 for (const [k, v] of Object.entries(PROV_WASH)) provExpr.push(k, v);
 provExpr.push('transparent');
 
+// 与纸底遮罩使用同一组边界：筛选标注锚点，不裁切越过海岸线的字形。
+const labelArea: MultiPolygon = {
+  type: 'MultiPolygon',
+  coordinates: chinaMask.features[0].geometry.coordinates.slice(1).map((ring) => [ring]),
+};
+const IN_MAP: FilterSpecification = ['within', labelArea];
+
 export const PAPER_MAP_STYLE: StyleSpecification = {
   version: 8,
   name: 'old-street-paper',
@@ -45,13 +52,14 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       type: 'geojson',
       data: chinaMask as FeatureCollection,
     },
+
   },
   layers: [
     // ---- 纸底 ----
     {
       id: 'bg',
       type: 'background',
-      paint: { 'background-color': '#F4EFE4' },
+      paint: { 'background-color': '#F1EDE2' },
     },
     // ---- 九省水彩晕染（参考手绘地图的淡彩铺色；街道级逐渐淡出） ----
     {
@@ -73,26 +81,6 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
         'line-color': '#8A7A66',
         'line-width': ['interpolate', ['linear'], ['zoom'], 4, 0.7, 8, 1.4],
         'line-opacity': ['interpolate', ['linear'], ['zoom'], 5, 0.55, 8, 0.22],
-      },
-    },
-    // ---- 省名书法标注（仅低倍缩放显示，参考图中竖排省名） ----
-    {
-      id: 'province-wash-label',
-      type: 'symbol',
-      source: 'provinces',
-      maxzoom: 6.8,
-      layout: {
-        'symbol-placement': 'point',
-        'text-field': ['get', 'name'],
-        'text-font': ['Noto Sans Bold'],
-        'text-size': 15,
-        'text-letter-spacing': 0.32,
-      },
-      paint: {
-        'text-color': '#6E5F4E',
-        'text-halo-color': '#F4EFE4',
-        'text-halo-width': 1.6,
-        'text-opacity': 0.9,
       },
     },
     // ---- 土地利用 ----
@@ -252,12 +240,68 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
         'line-width': 0.8,
       },
     },
+    // ---- 纸底遮罩：只覆盖底图，标注在遮罩和描边之后绘制 ----
+    {
+      id: 'china-mask-fill',
+      type: 'fill',
+      source: 'chinamask',
+      filter: ['==', ['get', 'part'], 'mask'],
+      paint: {
+        'fill-color': '#F1EDE2',
+        'fill-opacity': 1,
+      },
+    },
+    // ---- 境内暖染：让中国本土读作画纸上的水彩主体 ----
+    {
+      id: 'china-warm',
+      type: 'fill',
+      source: 'chinamask',
+      filter: ['==', ['get', 'part'], 'warm'],
+      paint: {
+        'fill-color': '#EFE6D2',
+        'fill-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.5, 7, 0.3, 9.5, 0],
+      },
+    },
+    // ---- 国界线描（参考图手绘朱墨描边） ----
+    {
+      id: 'china-outline-line',
+      type: 'line',
+      source: 'chinamask',
+      filter: ['==', ['get', 'part'], 'warm'],
+      layout: { 'line-join': 'round' },
+      paint: {
+        'line-color': '#A85F4A',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 3, 1, 6, 1.8, 9, 2.6],
+        'line-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.85, 8, 0.5],
+      },
+    },
+    // ---- 省名书法标注（仅低倍缩放显示，参考图中竖排省名） ----
+    {
+      id: 'province-wash-label',
+      type: 'symbol',
+      source: 'provinces',
+      maxzoom: 6.8,
+      layout: {
+        'symbol-placement': 'point',
+        'text-field': ['get', 'name'],
+        'text-font': ['Noto Sans Bold'],
+        'text-size': 15,
+        'text-letter-spacing': 0.32,
+      },
+      paint: {
+        'text-color': '#6E5F4E',
+        'text-halo-color': '#F1EDE2',
+        'text-halo-width': 1.6,
+        'text-opacity': 0.9,
+      },
+    },
     // ---- 标注 ----
     {
       id: 'label-water',
       type: 'symbol',
       source: 'openmaptiles',
       'source-layer': 'water_name',
+      filter: ['all', IN_MAP, ['!', ['in', ['get', 'class'], ['literal', ['ocean', 'sea']]]]],
       layout: {
         'text-field': ['coalesce', ['get', 'name:zh-Hans'], ['get', 'name:zh'], ['get', 'name:latin'], ['get', 'name']],
         'text-font': ['Noto Sans Italic'],
@@ -271,6 +315,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       type: 'symbol',
       source: 'openmaptiles',
       'source-layer': 'transportation_name',
+      filter: IN_MAP,
       minzoom: 14,
       layout: {
         'symbol-placement': 'line',
@@ -280,7 +325,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#8A8272',
-        'text-halo-color': '#F4EFE4',
+        'text-halo-color': '#F1EDE2',
         'text-halo-width': 1.2,
       },
     },
@@ -289,7 +334,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       type: 'symbol',
       source: 'openmaptiles',
       'source-layer': 'place',
-      filter: ['in', ['get', 'class'], ['literal', ['suburb', 'neighbourhood', 'village']]],
+      filter: ['all', IN_MAP, ['in', ['get', 'class'], ['literal', ['suburb', 'neighbourhood', 'village']]]],
       minzoom: 10,
       layout: {
         'text-field': ['coalesce', ['get', 'name:zh-Hans'], ['get', 'name:zh'], ['get', 'name:latin'], ['get', 'name']],
@@ -300,7 +345,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#9A9282',
-        'text-halo-color': '#F4EFE4',
+        'text-halo-color': '#F1EDE2',
         'text-halo-width': 1.4,
       },
     },
@@ -309,7 +354,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       type: 'symbol',
       source: 'openmaptiles',
       'source-layer': 'place',
-      filter: ['in', ['get', 'class'], ['literal', ['city', 'town']]],
+      filter: ['all', IN_MAP, ['in', ['get', 'class'], ['literal', ['city', 'town']]]],
       layout: {
         'text-field': ['coalesce', ['get', 'name:zh-Hans'], ['get', 'name:zh'], ['get', 'name:latin'], ['get', 'name']],
         'text-font': ['Noto Sans Bold'],
@@ -318,7 +363,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#6B655A',
-        'text-halo-color': '#F4EFE4',
+        'text-halo-color': '#F1EDE2',
         'text-halo-width': 1.6,
       },
     },
@@ -327,7 +372,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       type: 'symbol',
       source: 'openmaptiles',
       'source-layer': 'place',
-      filter: ['==', ['get', 'class'], 'state'],
+      filter: ['all', IN_MAP, ['==', ['get', 'class'], 'state']],
       minzoom: 6.8,
       layout: {
         'text-field': ['coalesce', ['get', 'name:zh-Hans'], ['get', 'name:zh'], ['get', 'name:latin'], ['get', 'name']],
@@ -337,7 +382,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#B0A892',
-        'text-halo-color': '#F4EFE4',
+        'text-halo-color': '#F1EDE2',
         'text-halo-width': 1.4,
       },
     },
@@ -346,7 +391,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       type: 'symbol',
       source: 'openmaptiles',
       'source-layer': 'place',
-      filter: ['==', ['get', 'class'], 'country'],
+      filter: ['all', IN_MAP, ['==', ['get', 'class'], 'country']],
       layout: {
         'text-field': ['coalesce', ['get', 'name:zh-Hans'], ['get', 'name:zh'], ['get', 'name:latin'], ['get', 'name']],
         'text-font': ['Noto Sans Regular'],
@@ -356,30 +401,8 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#A8A08C',
-        'text-halo-color': '#F4EFE4',
+        'text-halo-color': '#F1EDE2',
         'text-halo-width': 1.4,
-      },
-    },
-    // ---- 境外遮罩：世界矩形挖去中国，把国外一切瓦片内容盖成纸底 ----
-    {
-      id: 'china-mask-fill',
-      type: 'fill',
-      source: 'chinamask',
-      filter: ['==', ['get', 'part'], 'mask'],
-      paint: {
-        'fill-color': '#F4EFE4',
-        'fill-opacity': 1,
-      },
-    },
-    // ---- 境内暖染：让中国本土读作画纸上的水彩主体 ----
-    {
-      id: 'china-warm',
-      type: 'fill',
-      source: 'chinamask',
-      filter: ['==', ['get', 'part'], 'warm'],
-      paint: {
-        'fill-color': '#EFE6D2',
-        'fill-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.5, 7, 0.3, 9.5, 0],
       },
     },
     // ---- 海域名：画在遮罩之上（黄海/东海/南海在纸底上仍可见） ----
@@ -398,21 +421,8 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#7E949B',
-        'text-halo-color': '#F4EFE4',
+        'text-halo-color': '#F1EDE2',
         'text-halo-width': 1.4,
-      },
-    },
-    // ---- 国界线描（参考图手绘朱墨描边） ----
-    {
-      id: 'china-outline-line',
-      type: 'line',
-      source: 'chinamask',
-      filter: ['==', ['get', 'part'], 'warm'],
-      layout: { 'line-join': 'round' },
-      paint: {
-        'line-color': '#A85F4A',
-        'line-width': ['interpolate', ['linear'], ['zoom'], 3, 1, 6, 1.8, 9, 2.6],
-        'line-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.85, 8, 0.5],
       },
     },
   ],
