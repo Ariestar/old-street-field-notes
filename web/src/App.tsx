@@ -33,7 +33,7 @@ export default function App() {
   const mapRef = useRef<MLMap | null>(null);
   const sectionMapRef = useRef<HTMLDivElement>(null);
 
-  const { map } = useMapLibre(mapContainerRef, PAPER_MAP_STYLE, (m) => {
+  const { map, ready } = useMapLibre(mapContainerRef, PAPER_MAP_STYLE, (m) => {
     mapRef.current = m;
     // 初始视野：全国
     m.jumpTo({ center: [104.5, 34.8], zoom: 4.3 });
@@ -271,7 +271,7 @@ export default function App() {
       />
 
       {/* ── 卷首开卷（覆盖层，展毕自行卸载） ── */}
-      <ScrollCover />
+      <ScrollCover ready={ready} />
 
       {/* ── 向下翻页指示：首屏滚轮归地图，出口放在这里 ── */}
       {atHero && (

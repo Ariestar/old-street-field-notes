@@ -33,40 +33,97 @@ export function ArchiveCard({
   photoIndex: number;
   onPhotoIndex: (i: number) => void;
 }) {
+  const [zoomed, setZoomed] = useState(false);
+
+  useEffect(() => {
+    setZoomed(false);
+  }, [street?.id]);
+
+  useEffect(() => {
+    if (!zoomed) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setZoomed(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [zoomed]);
+
+  const photos = street ? photosOf(street.id) : [];
+  const zoomPhoto = street && photos.length ? photos[Math.min(photoIndex, photos.length - 1)] : null;
+
   return (
-    <AnimatePresence mode="wait">
-      {street && (
-        <motion.aside
-          key={street.id}
-          initial={{ x: '102%', opacity: 0.4 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: '102%', opacity: 0.4 }}
-          transition={{ duration: DUR.slow, ease: EASE_STANDARD }}
-          className="paper fixed bottom-4 right-4 top-[72px] z-30 flex w-full max-w-[520px] flex-col max-md:bottom-2 max-md:left-2 max-md:right-2 max-md:top-auto max-md:max-h-[72dvh] max-md:max-w-none"
-          style={paperVars(`card-${street.id}`, { deckle: 'lg' })}
-        >
-          {/* 抽屉滑进来之后，纸层与卡内各段依次落定 */}
-          <motion.div
-            className="flex h-full flex-col"
-            variants={paperGroup}
-            initial="hidden"
-            animate="shown"
+    <>
+      <AnimatePresence mode="wait">
+        {street && (
+          <motion.aside
+            key={street.id}
+            initial={{ x: '102%', opacity: 0.4 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '102%', opacity: 0.4 }}
+            transition={{ duration: DUR.slow, ease: EASE_STANDARD }}
+            className="paper fixed bottom-4 right-4 top-[72px] z-30 flex w-full max-w-[520px] flex-col max-md:bottom-2 max-md:left-2 max-md:right-2 max-md:top-auto max-md:max-h-[72dvh] max-md:max-w-none"
+            style={paperVars(`card-${street.id}`, { deckle: 'lg' })}
           >
-            <PaperSheet />
-            <CardInner
-              street={street}
-              onClose={onClose}
-              onPrev={onPrev}
-              onNext={onNext}
-              index={index}
-              total={total}
-              photoIndex={photoIndex}
-              onPhotoIndex={onPhotoIndex}
-            />
+            <motion.div
+              className="flex h-full flex-col"
+              variants={paperGroup}
+              initial="hidden"
+              animate="shown"
+            >
+              <PaperSheet />
+              <CardInner
+                street={street}
+                onClose={onClose}
+                onPrev={onPrev}
+                onNext={onNext}
+                index={index}
+                total={total}
+                photoIndex={photoIndex}
+                onPhotoIndex={onPhotoIndex}
+                onZoom={() => setZoomed(true)}
+              />
+            </motion.div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {zoomed && street && zoomPhoto && (
+          <motion.div
+            className="fixed inset-0 z-[80] flex items-center justify-center bg-[#141310]/80 p-5 backdrop-blur-sm max-md:p-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setZoomed(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${street.name} 放大照片`}
+          >
+            <motion.figure
+              initial={{ opacity: 0, scale: 0.9, y: 18 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 12 }}
+              transition={{ duration: DUR.quick, ease: EASE_STANDARD }}
+              className="relative max-h-full max-w-full overflow-hidden border border-[#F4EFE4]/40 bg-[#E9E3D5] p-2 shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <img src={photoUrl(street.id, Math.min(photoIndex, photos.length - 1))} alt={`${street.name} 放大照片`} className="max-h-[82vh] max-w-[88vw] object-contain" />
+              <figcaption className="flex items-center justify-between px-1 pt-2 font-mono text-[9px] tracking-[0.18em] text-[#3A372F]">
+                <span>{street.name}</span>
+                <span>FILM {pad(photoIndex + 1)} / {pad(photos.length)}</span>
+              </figcaption>
+              <button
+                onClick={() => setZoomed(false)}
+                aria-label="关闭放大照片"
+                className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center border border-[#F4EFE4]/60 bg-[#141310]/65 text-[#F4EFE4] transition-colors hover:bg-[#8B2F2F]"
+              >
+                ×
+              </button>
+            </motion.figure>
           </motion.div>
-        </motion.aside>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -79,6 +136,7 @@ function CardInner({
   total,
   photoIndex,
   onPhotoIndex,
+  onZoom,
 }: {
   street: Street;
   onClose: () => void;
@@ -88,6 +146,7 @@ function CardInner({
   total: number;
   photoIndex: number;
   onPhotoIndex: (i: number) => void;
+  onZoom: () => void;
 }) {
   const photos = photosOf(street.id);
   const n = photos.length;
@@ -183,6 +242,15 @@ function CardInner({
                 className="photo-archival absolute inset-0 h-full w-full object-cover"
               />
             </AnimatePresence>
+            <button
+              onClick={onZoom}
+              aria-label="放大当前照片"
+              className="group absolute right-3 top-3 flex h-9 w-9 items-center justify-center border border-[#F4EFE4]/70 bg-[#141310]/65 text-[#F4EFE4] shadow-[0_3px_12px_rgba(27,27,27,0.25)] transition-all hover:scale-105 hover:bg-[#8B2F2F]"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path d="M6.5 2.5H2.5v4M9.5 13.5h4v-4M2.5 6.5l4-4M13.5 9.5l-4 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+              </svg>
+            </button>
             </div>
           </div>
 

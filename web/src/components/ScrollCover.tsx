@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { paperVars } from '../lib/paper';
 import { DUR, EASE_STANDARD } from '../lib/motion';
 import { PaperSheet } from './Paper';
 import { PlateText } from './PlateText';
-
-const HOLD_MS = 650;
 
 /**
  * 卷首开卷 —— 画卷自中央向两侧展开。
@@ -15,18 +13,19 @@ const HOLD_MS = 650;
  * 注：不做 prefers-reduced-motion 短路 —— 系统关闭动画时仍照常开卷，
  * 这是站点刻意的开场仪式（站主明确要求）。
  */
-export function ScrollCover() {
+export function ScrollCover({ ready }: { ready: boolean }) {
   const [max] = useState(() =>
     typeof window !== 'undefined' ? Math.min(880, Math.round(window.innerWidth * 0.86)) : 880,
   );
   const [phase, setPhase] = useState<'open' | 'close'>('open');
   const [gone, setGone] = useState(false);
-  const timers = useRef<number[]>([]);
+  useEffect(() => {
+    if (!ready && phase === 'close') setPhase('open');
+  }, [ready, phase]);
 
   useEffect(() => {
-    const t = timers.current;
-    return () => t.forEach(clearTimeout);
-  }, []);
+    if (ready && phase === 'open') setPhase('close');
+  }, [ready, phase]);
 
   if (gone) return null;
 
@@ -39,7 +38,7 @@ export function ScrollCover() {
         transition={{ duration: phase === 'open' ? DUR.hold : DUR.slow, ease: EASE_STANDARD }}
         onAnimationComplete={() => {
           if (phase === 'open') {
-            timers.current.push(window.setTimeout(() => setPhase('close'), HOLD_MS));
+            if (ready) setPhase('close');
           } else {
             setGone(true);
           }
@@ -66,6 +65,14 @@ export function ScrollCover() {
             我们用二十一天，走过十一省二十四条古街——记录行走、观察、采访与拍摄。
             这不是一张旅游地图，而是一次田野实践的数字档案。
           </p>
+          {!ready && (
+            <div className="mx-auto mt-5 flex max-w-[240px] items-center gap-2 font-mono text-[8px] tracking-[0.18em] text-[#8A8272]">
+              <span className="h-px flex-1 overflow-hidden bg-[#C4BCA8]">
+                <span className="block h-full w-1/3 animate-[dash-flow_1.4s_linear_infinite] bg-[#8B2F2F]" />
+              </span>
+              <span>MAP / LOADING</span>
+            </div>
+          )}
         </div>
 
         {/* 两根卷轴：钉在画卷两缘，随展开/合拢同步移动 */}
