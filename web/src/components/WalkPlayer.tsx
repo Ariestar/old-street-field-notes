@@ -40,6 +40,9 @@ export function MapLegend({
       <span className="h-[6px] w-[6px] shrink-0 rotate-45" style={{ background: color }} />
       <span className="font-serif-sc text-[12.5px] font-medium text-[#1F1C18]">{name}</span>
       <span className="ml-auto font-mono text-[8px] tracking-[0.14em] text-[#A49D92]">{stops} STOPS</span>
+      <span className="ml-1 font-mono text-[12px] text-[#BCB3A0] transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[#8B2F2F]" aria-hidden>
+        →
+      </span>
       <span
         className={`absolute bottom-0 left-0 h-[2px] bg-[#8B2F2F] transition-all duration-300 ${
           picked ? 'w-full' : 'w-0 group-hover:w-1/2'
@@ -50,7 +53,7 @@ export function MapLegend({
 
   return (
     <motion.div
-      className="paper pointer-events-auto absolute bottom-8 left-4 z-10 hidden px-4 py-3 md:block"
+      className="paper pointer-events-auto absolute bottom-8 left-4 z-10 hidden w-[258px] px-4 py-3.5 md:block"
       style={paperVars('route-filter', { deckle: 'md' })}
       variants={paperGroup}
       initial="hidden"
@@ -58,7 +61,13 @@ export function MapLegend({
     >
       <PaperSheet />
       <motion.div variants={contentIn}>
-        <div className="kicker mb-2">路线筛选 / ROUTE FILTER</div>
+        <div className="mb-3 flex items-end justify-between border-b border-[#CBC3B4] pb-2">
+          <div>
+            <div className="kicker">五条寻访路线</div>
+            <div className="mt-1 font-serif-sc text-[13px] font-bold text-[#1F1C18]">FIELD ROUTES</div>
+          </div>
+          <span className="font-mono text-[8px] tracking-[0.12em] text-[#A49D92]">24 STOPS</span>
+        </div>
         <div className="space-y-1.5">
           {row(null, '#6B655C', '全部', STREETS.length, activeRoute === null, false)}
           {ROUTES.map((r) =>

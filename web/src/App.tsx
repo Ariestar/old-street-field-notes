@@ -10,7 +10,6 @@ import { PAPER_MAP_STYLE } from './styles/paperMapStyle';
 import { useMapLibre } from './hooks/useMapLibre';
 import { ScrollCover } from './components/ScrollCover';
 import { MapLayers } from './components/MapLayers';
-import { MapHUD } from './components/MapHUD';
 import { MapLegend } from './components/WalkPlayer';
 import { ArchiveCard } from './components/ArchiveCard';
 import { NodeTooltip } from './components/MapOverlays';
@@ -224,7 +223,6 @@ export default function App() {
             <div
               className="pointer-events-none absolute inset-0 z-20 [&_a]:pointer-events-auto [&_button]:pointer-events-auto"
             >
-              <MapHUD activeRoute={activeRoute} />
               <MapLegend activeRoute={activeRoute} onPick={filterRoute} />
             </div>
             <NodeTooltip hoverId={hoverId} screenPos={tooltipPos} />
