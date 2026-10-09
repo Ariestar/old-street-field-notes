@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { Street, Story } from '../data/types';
 import { ORAL_STORIES } from '../data/stories';
 import { photosOf, photoUrl } from '../data/media';
+import { paperVars } from '../lib/paper';
+import { DUR, EASE_STANDARD, contentIn, paperGroup, slideSwap } from '../lib/motion';
+import { PaperSheet } from './Paper';
+import { PlateText } from './PlateText';
+
+const pad = (n: number) => String(n).padStart(2, '0');
 
 /**
  * 档案卡 —— 点击地图节点后出现的编辑部风格内容面板。
@@ -15,6 +21,8 @@ export function ArchiveCard({
   onNext,
   index,
   total,
+  photoIndex,
+  onPhotoIndex,
 }: {
   street: Street | null;
   onClose: () => void;
@@ -22,6 +30,8 @@ export function ArchiveCard({
   onNext: () => void;
   index: number;
   total: number;
+  photoIndex: number;
+  onPhotoIndex: (i: number) => void;
 }) {
   return (
     <AnimatePresence mode="wait">
@@ -31,10 +41,29 @@ export function ArchiveCard({
           initial={{ x: '102%', opacity: 0.4 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: '102%', opacity: 0.4 }}
-          transition={{ duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="fixed inset-y-0 right-0 top-14 z-30 flex w-full max-w-[520px] flex-col border-l border-[#C4BCA8] bg-[#F3F0E8] shadow-[-16px_0_48px_rgba(27,27,27,0.14)] max-md:top-auto max-md:max-w-none max-md:max-h-[72dvh] max-md:border-t max-md:border-l-0 max-md:shadow-[0_-16px_48px_rgba(27,27,27,0.18)]"
+          transition={{ duration: DUR.slow, ease: EASE_STANDARD }}
+          className="paper fixed bottom-4 right-4 top-[72px] z-30 flex w-full max-w-[520px] flex-col max-md:bottom-2 max-md:left-2 max-md:right-2 max-md:top-auto max-md:max-h-[72dvh] max-md:max-w-none"
+          style={paperVars(`card-${street.id}`, { deckle: 'lg' })}
         >
-          <CardInner street={street} onClose={onClose} onPrev={onPrev} onNext={onNext} index={index} total={total} />
+          {/* 抽屉滑进来之后，纸层与卡内各段依次落定 */}
+          <motion.div
+            className="flex h-full flex-col"
+            variants={paperGroup}
+            initial="hidden"
+            animate="shown"
+          >
+            <PaperSheet />
+            <CardInner
+              street={street}
+              onClose={onClose}
+              onPrev={onPrev}
+              onNext={onNext}
+              index={index}
+              total={total}
+              photoIndex={photoIndex}
+              onPhotoIndex={onPhotoIndex}
+            />
+          </motion.div>
         </motion.aside>
       )}
     </AnimatePresence>
@@ -48,6 +77,8 @@ function CardInner({
   onNext,
   index,
   total,
+  photoIndex,
+  onPhotoIndex,
 }: {
   street: Street;
   onClose: () => void;
@@ -55,31 +86,54 @@ function CardInner({
   onNext: () => void;
   index: number;
   total: number;
+  photoIndex: number;
+  onPhotoIndex: (i: number) => void;
 }) {
   const photos = photosOf(street.id);
-  const coverB = photos[1 % photos.length];
+  const n = photos.length;
+  const i = n ? Math.min(photoIndex, n - 1) : 0;
+
+  // 切换方向：由下标的前后关系推得，键盘与按钮走同一条路
+  const prevIdx = useRef(i);
+  const step = (i - prevIdx.current + n) % n;
+  const dir = step === 0 || step <= n / 2 ? 1 : -1;
+  useEffect(() => {
+    prevIdx.current = i;
+  }, [i]);
+
+  // 预取左右相邻一张，切换时不空窗
+  useEffect(() => {
+    if (n < 2) return;
+    [1, -1].forEach((d) => {
+      const img = new Image();
+      img.src = photoUrl(street.id, (i + d + n) % n);
+    });
+  }, [i, n, street.id]);
 
   return (
     <div className="flex h-full flex-col overflow-y-auto">
       {/* ── 头部：编号 + 标题 ── */}
-      <header className="relative shrink-0 border-b border-[#D8D2C4] px-7 pb-5 pt-6 max-md:px-5 max-md:pt-4">
+      <motion.header
+        variants={contentIn}
+        className="relative shrink-0 border-b border-[#CBC3B4] px-7 pb-5 pt-6 max-md:px-5 max-md:pt-4"
+      >
         <div className="flex items-start justify-between">
           <div className="flex items-baseline gap-4">
             <span className="font-serif-sc text-[44px] font-black leading-none text-[#8B2F2F] max-md:text-[36px]">
-              {String(street.order).padStart(2, '0')}
+              {pad(street.order)}
             </span>
             <div>
-              <h2 className="font-serif-sc text-[28px] font-bold leading-tight text-[#1B1B1B] max-md:text-[24px]">
-                {street.name}
+              <h2 className="font-serif-sc text-[28px] font-bold leading-tight text-[#1F1C18] max-md:text-[24px]">
+                <PlateText id={`card-title-${street.id}`}>{street.name}</PlateText>
               </h2>
-              <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.22em] text-[#77736A]">
+              <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.22em] text-[#6B655C]">
                 {street.fullName}
               </div>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="pointer-events-auto -mr-2 -mt-1 p-2 text-[#77736A] transition-colors hover:text-[#8B2F2F]"
+            className="pointer-events-auto -mr-2 -mt-1 p-2 text-[#6B655C] transition-colors hover:text-[#8B2F2F]"
             aria-label="关闭档案"
           >
             <svg width="18" height="18" viewBox="0 0 18 18">
@@ -88,71 +142,100 @@ function CardInner({
           </button>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[#A8A296]">
-          <span>FIELD NOTE {String(street.order).padStart(2, '0')} / {String(total).padStart(2, '0')}</span>
-          <span className="text-[#C4BCA8]">·</span>
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[#A49D92]">
+          <span>FIELD NOTE {pad(street.order)} / {pad(total)}</span>
+          <span className="text-[#BCB3A0]">·</span>
           <span>{street.period}</span>
           {street.heritage && (
             <>
-              <span className="text-[#C4BCA8]">·</span>
+              <span className="text-[#BCB3A0]">·</span>
               <span className="text-[#B89B67]">{street.heritage}</span>
             </>
           )}
         </div>
         {/* 暗红下划标 */}
         <div className="absolute bottom-0 left-7 h-[2px] w-14 bg-[#8B2F2F] max-md:left-5" />
-      </header>
+      </motion.header>
 
       {/* ── 主体 ── */}
       <div className="flex-1 overflow-y-auto px-7 pb-6 max-md:px-5">
         {/* 定位句 */}
-        <p className="mt-5 font-serif-sc text-[17px] font-medium leading-relaxed text-[#3A372F]">
+        <motion.p
+          variants={contentIn}
+          className="mt-5 font-serif-sc text-[17px] font-medium leading-relaxed text-[#4A453C]"
+        >
           「{street.tagline}」
-        </p>
+        </motion.p>
 
-        {/* 照片组：错落叠放（A 大图 + B 窄幅斜叠右下，整体收进容器） */}
-        <div className="relative mt-6 h-[360px] max-md:h-[300px]">
-          <motion.figure
-            initial={{ opacity: 0, y: 14, rotate: -1.2 }}
-            animate={{ opacity: 1, y: 0, rotate: -1.2 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="absolute left-0 top-0 w-[62%] overflow-hidden bg-[#EAE5D8] shadow-[4px_6px_20px_rgba(27,27,27,0.22)]"
-          >
-            <img
-              src={photoUrl(street.id, 0)}
-              alt={street.name}
-              loading="lazy"
-              className="photo-archival aspect-[4/3] w-full object-cover"
-            />
-            <figcaption className="flex items-center justify-between px-2.5 py-1.5 font-mono text-[8px] uppercase tracking-[0.18em] text-[#77736A]">
-              <span>FIELD PHOTO</span>
-              <span>2026.07—08</span>
-            </figcaption>
-          </motion.figure>
-          {coverB && (
-            <motion.figure
-              initial={{ opacity: 0, y: 18, rotate: 1.6 }}
-              animate={{ opacity: 1, y: 0, rotate: 1.6 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="absolute right-0 top-[34%] z-10 w-[38%] overflow-hidden bg-[#EAE5D8] shadow-[4px_6px_20px_rgba(27,27,27,0.25)]"
-            >
-              <img
-                src={photoUrl(street.id, 1)}
-                alt=""
+        {/* 图片取景框：一次一张，左右切换 */}
+        <motion.div variants={contentIn} className="mt-6">
+          {/* 相框：一张纸托着照片，纸边参差、照片自己是方的 */}
+          <div className="paper p-3" style={paperVars(`card-photo-${street.id}`, { deckle: 'md' })}>
+            <PaperSheet />
+            <div className="relative h-[300px] overflow-hidden bg-[#E9E3D5] max-md:h-[240px]">
+            <AnimatePresence initial={false} mode="wait">
+              <motion.img
+                key={i}
+                src={photoUrl(street.id, i)}
+                alt={`${street.name} 照片 ${i + 1}`}
                 loading="lazy"
-                className="photo-archival aspect-[3/4] w-full object-cover"
+                {...slideSwap(dir)}
+                className="photo-archival absolute inset-0 h-full w-full object-cover"
               />
-            </motion.figure>
-          )}
-        </div>
+            </AnimatePresence>
+            </div>
+          </div>
+
+          {/* 底片帧号 + 进度刻度 + 翻页：翻页放在相框下方，不压住照片本身 */}
+          <div className="mt-2.5 flex items-center gap-3">
+            {n > 1 && (
+              <button
+                onClick={() => onPhotoIndex((i - 1 + n) % n)}
+                aria-label="上一张照片"
+                className="paper flex h-7 w-7 shrink-0 items-center justify-center font-serif-sc text-[15px] leading-none text-[#4A453C] transition-colors hover:text-[#8B2F2F]"
+                style={paperVars(`card-prev-${street.id}`, { deckle: 'sm' })}
+              >
+                <PaperSheet />
+                ‹
+              </button>
+            )}
+            <span className="font-mono text-[8px] uppercase tracking-[0.18em] text-[#6B655C]" aria-live="polite">
+              FILM {pad(i + 1)} / {pad(n)} · 2026.07—08
+            </span>
+            <div className="ml-auto flex items-center gap-[5px]">
+              {n > 1 &&
+                photos.map((p, k) => (
+                  <button
+                    key={p.f}
+                    onClick={() => onPhotoIndex(k)}
+                    aria-label={`第 ${k + 1} 张照片`}
+                    className={`h-[5px] w-[5px] rotate-45 transition-colors ${
+                      k === i ? 'bg-[#8B2F2F]' : 'bg-[#BCB3A0] hover:bg-[#A49D92]'
+                    }`}
+                  />
+                ))}
+            </div>
+            {n > 1 && (
+              <button
+                onClick={() => onPhotoIndex((i + 1) % n)}
+                aria-label="下一张照片"
+                className="paper flex h-7 w-7 shrink-0 items-center justify-center font-serif-sc text-[15px] leading-none text-[#4A453C] transition-colors hover:text-[#8B2F2F]"
+                style={paperVars(`card-next-${street.id}`, { deckle: 'sm' })}
+              >
+                <PaperSheet />
+                ›
+              </button>
+            )}
+          </div>
+        </motion.div>
 
         {/* 编辑部导语 */}
         <div className="mt-7">
           <div className="kicker">观察记录 / OBSERVATION</div>
-          <p className="mt-2.5 font-serif-sc text-[14px] leading-[1.95] text-[#3A372F]">{street.intro}</p>
+          <p className="mt-2.5 font-serif-sc text-[14px] leading-reading text-[#4A453C]">{street.intro}</p>
           {street.introEn && (
-            <div className="mt-4 border-t border-dashed border-[#C4BCA8] pt-3.5">
-              <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#A8A296]">English</div>
+            <div className="mt-4 border-t border-dashed border-[#BCB3A0] pt-3.5">
+              <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#A49D92]">English</div>
               <p className="mt-1.5 text-[12.5px] leading-[1.85] text-[#5C574C]">{street.introEn}</p>
             </div>
           )}
@@ -163,81 +246,83 @@ function CardInner({
           <div className="mt-8">
             <div className="kicker">口述故事 / ORAL STORIES</div>
             <div className="mt-3 space-y-4">
-              {ORAL_STORIES[street.id].map((st, i) => (
-                <StoryBlock key={i} story={st} no={i + 1} />
+              {ORAL_STORIES[street.id].map((st, k) => (
+                <StoryBlock key={k} story={st} no={k + 1} id={`${street.id}-story-${k + 1}`} />
               ))}
             </div>
           </div>
         )}
 
-        {/* 采访摘录 */}
-        {street.interviews?.map((iv, i) => (
-          <div key={i} className="mt-7 border-l-2 border-[#8B2F2F] bg-[#EFE9DC] px-5 py-4">
-            <div className="kicker text-[#8B2F2F]">采访摘录 / INTERVIEW {iv.audio ? '· 含录音' : ''}</div>
-            <blockquote className="mt-2 font-serif-sc text-[14.5px] leading-[1.9] text-[#1B1B1B]">
+        {/* 采访摘录：第二张纸（便签）压在档案卡上，唯一的手写墨色 */}
+        {street.interviews?.map((iv, k) => (
+          <motion.div
+            key={k}
+            variants={contentIn}
+            className="paper mt-7 px-5 py-4"
+            style={paperVars(`iv-${street.id}-${k}`, { tone: '#E3D6BB', deckle: 'md' })}
+          >
+            <PaperSheet />
+            <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-[#3F4A6B]">
+              采访摘录 / INTERVIEW {iv.audio ? '· 含录音' : ''}
+            </div>
+            <blockquote className="mt-2 font-kai text-[15px] leading-[1.75] text-[#3F4A6B]">
               「{iv.quote}」
             </blockquote>
-            <div className="mt-2.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#77736A]">
+            <div className="mt-2.5 font-mono text-[9px] uppercase tracking-[0.14em] text-[#6B655C]">
               —— {iv.person}{iv.age ? `，${iv.age} 岁` : ''}，{iv.role}
             </div>
             {iv.audio && (
-              <audio controls preload="none" src={iv.audio} className="mt-3 h-8 w-full max-w-[320px] [&::-webkit-media-controls-panel]:bg-[#EAE5D8]" />
+              <audio controls preload="none" src={iv.audio} className="mt-3 h-8 w-full max-w-[320px] [&::-webkit-media-controls-panel]:bg-[#E9E3D5]" />
             )}
-          </div>
+          </motion.div>
         ))}
 
-        {/* 田野发现 */}
-        <div className="mt-7">
+        {/* 田野发现：同样是叠在卡上的一小张纸 */}
+        <motion.div
+          variants={contentIn}
+          className="paper mt-7 px-5 py-4"
+          style={paperVars(`${street.id}-findings`, { tone: '#E9E3D5', deckle: 'md' })}
+        >
+          <PaperSheet />
           <div className="kicker">田野发现 / FIELD FINDINGS</div>
           <ul className="mt-2.5 space-y-2">
-            {street.findings.map((f, i) => (
-              <li key={i} className="flex gap-2.5 text-[13px] leading-[1.8] text-[#3A372F]">
+            {street.findings.map((f, k) => (
+              <li key={k} className="flex gap-2.5 text-[13px] leading-reading text-[#4A453C]">
                 <span className="mt-[9px] h-[5px] w-[5px] shrink-0 rotate-45 bg-[#B89B67]" />
                 {f}
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
 
-        {/* 关键词 */}
+        {/* 关键词：贴上去的一枚枚小纸标签 */}
         <div className="mt-7 flex flex-wrap gap-2">
           {street.keywords.map((k) => (
-            <span key={k} className="border border-[#C4BCA8] px-2.5 py-1 text-[11px] text-[#77736A]">
+            <motion.span
+              key={k}
+              variants={contentIn}
+              whileHover={{ y: -1.5 }}
+              className="paper px-2.5 py-1 text-[11px] text-[#4A453C]"
+              style={paperVars(`kw-${street.id}-${k}`, { tone: '#E3D6BB', deckle: 'sm' })}
+            >
+              <PaperSheet />
               {k}
-            </span>
+            </motion.span>
           ))}
         </div>
-
-        {/* 底部照片条 */}
-        {photos.length > 2 && (
-          <div className="mt-7">
-            <div className="kicker">底片联络表 / CONTACT SHEET</div>
-            <div className="mt-2.5 flex gap-1.5 overflow-x-auto pb-1">
-              {photos.slice(2, 10).map((p, i) => (
-                <img
-                  key={p.f}
-                  src={photoUrl(street.id, i + 2)}
-                  alt=""
-                  loading="lazy"
-                  className="photo-archival h-16 w-20 shrink-0 cursor-pointer object-cover grayscale-[35%] transition-all duration-500 hover:scale-[1.04] hover:grayscale-0"
-                />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* ── 底部：前后导航 ── */}
-      <footer className="sticky bottom-0 flex shrink-0 items-center justify-between border-t border-[#D8D2C4] bg-[#F3F0E8]/95 px-7 py-3 backdrop-blur-sm max-md:px-5">
+      <footer className="sticky bottom-0 flex shrink-0 items-center justify-between border-t border-[#CBC3B4] bg-[#F4EFE4] px-7 py-3 max-md:px-5">
         <button
           onClick={onPrev}
-          className="group flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#77736A] transition-colors hover:text-[#8B2F2F]"
+          className="group flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B655C] transition-colors hover:text-[#8B2F2F]"
         >
           <span className="transition-transform group-hover:-translate-x-1">←</span>
           上一地点
         </button>
-        <span className="font-mono text-[10px] tracking-[0.2em] text-[#A8A296]">
-          {String(index).padStart(2, '0')} / {String(total).padStart(2, '0')}
+        <span className="font-mono text-[10px] tracking-[0.2em] text-[#A49D92]">
+          {pad(index)} / {pad(total)}
         </span>
         <button
           onClick={onNext}
@@ -251,32 +336,37 @@ function CardInner({
   );
 }
 
-/** 单则双语口述故事：中文为主，英文折叠 */
-function StoryBlock({ story, no }: { story: Story; no: number }) {
+/** 单则双语口述故事：裁下来的一小张纸，中文为主，英文折叠 */
+function StoryBlock({ story, no, id }: { story: Story; no: number; id: string }) {
   const [openEn, setOpenEn] = useState(false);
   return (
-    <article className="border-l-2 border-[#B89B67] bg-[#EFE9DC]/70 px-5 py-4">
-      <h3 className="font-serif-sc text-[15px] font-bold leading-snug text-[#1B1B1B]">
+    <motion.article
+      variants={contentIn}
+      className="paper px-5 py-4"
+      style={paperVars(id, { tone: '#E9E3D5', deckle: 'md' })}
+    >
+      <PaperSheet />
+      <h3 className="font-serif-sc text-[15px] font-bold leading-snug text-[#1F1C18]">
         <span className="mr-2 font-mono text-[10px] font-normal tracking-[0.14em] text-[#B89B67]">
-          {String(no).padStart(2, '0')}
+          {pad(no)}
         </span>
         {story.title}
       </h3>
-      <p className="mt-1.5 text-[13px] leading-[1.9] text-[#3A372F]">{story.text}</p>
+      <p className="mt-1.5 text-[13px] leading-reading text-[#4A453C]">{story.text}</p>
 
       <button
         onClick={() => setOpenEn((v) => !v)}
-        className="mt-2.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A8A296] transition-colors hover:text-[#8B2F2F]"
+        className="mt-2.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A49D92] transition-colors hover:text-[#8B2F2F]"
         aria-expanded={openEn}
       >
         {openEn ? '− Hide English' : '+ English'}
       </button>
       {openEn && (
         <div className="mt-1.5">
-          <div className="font-serif-sc text-[13.5px] font-bold text-[#3A372F]">{story.titleEn}</div>
+          <div className="font-serif-sc text-[13.5px] font-bold text-[#4A453C]">{story.titleEn}</div>
           <p className="mt-1 text-[12px] leading-[1.8] text-[#5C574C]">{story.textEn}</p>
         </div>
       )}
-    </article>
+    </motion.article>
   );
 }

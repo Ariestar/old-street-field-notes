@@ -52,14 +52,13 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       type: 'geojson',
       data: chinaMask as FeatureCollection,
     },
-
   },
   layers: [
     // ---- 纸底 ----
     {
       id: 'bg',
       type: 'background',
-      paint: { 'background-color': '#F1EDE2' },
+      paint: { 'background-color': '#F4EFE4' },
     },
     // ---- 九省水彩晕染（参考手绘地图的淡彩铺色；街道级逐渐淡出） ----
     {
@@ -247,7 +246,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       source: 'chinamask',
       filter: ['==', ['get', 'part'], 'mask'],
       paint: {
-        'fill-color': '#F1EDE2',
+        'fill-color': '#F4EFE4',
         'fill-opacity': 1,
       },
     },
@@ -290,7 +289,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#6E5F4E',
-        'text-halo-color': '#F1EDE2',
+        'text-halo-color': '#F4EFE4',
         'text-halo-width': 1.6,
         'text-opacity': 0.9,
       },
@@ -325,7 +324,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#8A8272',
-        'text-halo-color': '#F1EDE2',
+        'text-halo-color': '#F4EFE4',
         'text-halo-width': 1.2,
       },
     },
@@ -345,7 +344,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#9A9282',
-        'text-halo-color': '#F1EDE2',
+        'text-halo-color': '#F4EFE4',
         'text-halo-width': 1.4,
       },
     },
@@ -363,7 +362,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#6B655A',
-        'text-halo-color': '#F1EDE2',
+        'text-halo-color': '#F4EFE4',
         'text-halo-width': 1.6,
       },
     },
@@ -382,7 +381,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#B0A892',
-        'text-halo-color': '#F1EDE2',
+        'text-halo-color': '#F4EFE4',
         'text-halo-width': 1.4,
       },
     },
@@ -401,7 +400,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#A8A08C',
-        'text-halo-color': '#F1EDE2',
+        'text-halo-color': '#F4EFE4',
         'text-halo-width': 1.4,
       },
     },
@@ -421,7 +420,7 @@ export const PAPER_MAP_STYLE: StyleSpecification = {
       },
       paint: {
         'text-color': '#7E949B',
-        'text-halo-color': '#F1EDE2',
+        'text-halo-color': '#F4EFE4',
         'text-halo-width': 1.4,
       },
     },

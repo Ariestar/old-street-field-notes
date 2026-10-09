@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { paperVars } from '../lib/paper';
+import { DUR, EASE_STANDARD } from '../lib/motion';
+import { PaperSheet } from './Paper';
+import { PlateText } from './PlateText';
 
-const EASE = [0.25, 0.46, 0.45, 0.94] as const;
 const HOLD_MS = 650;
 
 /**
@@ -33,7 +36,7 @@ export function ScrollCover() {
       <motion.div
         initial={{ width: 0 }}
         animate={{ width: phase === 'open' ? max : 0 }}
-        transition={{ duration: phase === 'open' ? 1.05 : 0.85, ease: EASE }}
+        transition={{ duration: phase === 'open' ? DUR.hold : DUR.slow, ease: EASE_STANDARD }}
         onAnimationComplete={() => {
           if (phase === 'open') {
             timers.current.push(window.setTimeout(() => setPhase('close'), HOLD_MS));
@@ -41,20 +44,25 @@ export function ScrollCover() {
             setGone(true);
           }
         }}
-        className="absolute left-1/2 top-1/2 flex justify-center overflow-hidden -translate-x-1/2 -translate-y-1/2"
+        className="absolute left-1/2 top-1/2 flex justify-center overflow-hidden py-6 -translate-x-1/2 -translate-y-1/2"
       >
-        {/* 画布（固定宽度，居中裁切） */}
-        <div className="w-[880px] max-w-[92vw] shrink-0 border-y border-[#C4BCA8] bg-[#F3F0E8] px-10 py-9 text-center max-md:px-5 max-md:py-6">
+        {/* 画布（固定宽度，居中裁切）。父层留出 py-6，毛边才有地方咬。
+            左右两边被卷轴木杆压住，参差只在上下缘露出来 */}
+        <div
+          className="paper w-[880px] max-w-[92vw] shrink-0 px-10 py-9 text-center max-md:px-5 max-md:py-6"
+          style={paperVars('scroll-cover', { deckle: 'lg' })}
+        >
+          <PaperSheet />
           <div className="kicker">A DIGITAL FIELD ATLAS OF CHINA'S OLD STREETS</div>
-          <h1 className="mt-3 font-serif-sc text-[clamp(40px,5.6vw,68px)] font-black leading-[1.06] tracking-[0.12em] text-[#1B1B1B]">
-            古街实践档案
+          <h1 className="mt-3 font-serif-sc text-[clamp(40px,5.6vw,68px)] font-black leading-[1.06] tracking-[0.12em] text-[#1F1C18]">
+            <PlateText id="scroll-cover">古街实践档案</PlateText>
           </h1>
           <div className="mt-3 flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-[0.34em] text-[#8B2F2F]">
             <span className="h-[1px] w-10 bg-[#8B2F2F]" />
             OLD STREET · FIELD NOTES
             <span className="h-[1px] w-10 bg-[#8B2F2F]" />
           </div>
-          <p className="mx-auto mt-4 max-w-[560px] font-serif-sc text-[13px] leading-[1.9] text-[#3A372F] max-md:hidden">
+          <p className="mx-auto mt-4 max-w-[560px] font-serif-sc text-[13px] leading-[1.9] text-[#4A453C] max-md:hidden">
             我们用二十一天，走过十一省二十四条古街——记录行走、观察、采访与拍摄。
             这不是一张旅游地图，而是一次田野实践的数字档案。
           </p>
