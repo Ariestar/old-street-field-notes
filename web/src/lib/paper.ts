@@ -69,8 +69,8 @@ export function paperVars(
 export function plateVars(id: string): CSSProperties {
   const h = hash(`${id}plate`);
   return {
-    '--plate-x': `${((h % 33) / 10 - 1.4).toFixed(2)}px`,
-    '--plate-y': `${(((h >> 6) % 16) / 10 + 0.3).toFixed(2)}px`,
-    '--plate-rot': `${(((h >> 12) % 45) / 100 - 0.22).toFixed(3)}deg`,
+    '--plate-x': `${((h % 17) / 20 - 0.42).toFixed(2)}px`,
+    '--plate-y': `${(((h >> 6) % 10) / 20 + 0.12).toFixed(2)}px`,
+    '--plate-rot': `${(((h >> 12) % 25) / 200 - 0.06).toFixed(3)}deg`,
   } as CSSProperties;
 }

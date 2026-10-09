@@ -33,7 +33,7 @@
   --color-pencil: #3F4A6B;
 
   /* 套印偏色红：印刷跑偏的副版，刻意比印章朱红更亮更饱和 */
-  --color-registration: #B5412F;
+  --color-registration: #8A7A66;
 
   --color-vermilion: #8B2F2F;
   --color-vermilion-deep: #6E2323;
@@ -192,9 +192,9 @@ body {
     inset: 0;
     pointer-events: none;
     color: var(--color-registration);
-    opacity: 0.45;
-    translate: var(--plate-x, 1.2px) var(--plate-y, 0.8px);
-    rotate: var(--plate-rot, -0.22deg);
+    opacity: 0.2;
+    translate: var(--plate-x, 0.8px) var(--plate-y, 0.5px);
+    rotate: var(--plate-rot, -0.12deg);
     transform-origin: 0 50%;
   }
   .plate__ink {

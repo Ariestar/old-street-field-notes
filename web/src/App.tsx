@@ -277,24 +277,25 @@ export default function App() {
 
       {/* ── 向下翻页指示：首屏滚轮归地图，出口放在这里 ── */}
       {atHero && (
-        <button
+        <motion.button
           onClick={goToArchive}
           aria-label="向下翻页，查看全部地点"
-          className="paper fixed bottom-8 left-1/2 z-40 flex h-11 w-11 -translate-x-1/2 items-center justify-center"
-          style={paperVars('scroll-cue', { deckle: 'sm' })}
+          whileHover={{ y: 4, scale: 1.08 }}
+          whileTap={{ scale: 0.94 }}
+          transition={{ duration: 0.22, ease: 'easeOut' }}
+          className="fixed bottom-8 left-1/2 z-40 flex h-11 w-11 -translate-x-1/2 items-center justify-center text-[#8B2F2F] transition-colors hover:text-[#6E2323]"
         >
-          <PaperSheet />
           <svg
-            width="16"
-            height="10"
-            viewBox="0 0 16 10"
+            width="20"
+            height="14"
+            viewBox="0 0 20 14"
             fill="none"
             className="animate-[scroll-cue_1.8s_ease-in-out_infinite] text-[#8B2F2F]"
             aria-hidden
           >
-            <path d="M1 1 L8 8 L15 1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            <path d="M2 2 L10 10 L18 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-        </button>
+        </motion.button>
       )}
     </div>
   );
