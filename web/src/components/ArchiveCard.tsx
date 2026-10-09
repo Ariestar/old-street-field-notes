@@ -104,9 +104,11 @@ export function ArchiveCard({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 12 }}
               transition={{ duration: DUR.quick, ease: EASE_STANDARD }}
-              className="relative max-h-full max-w-full overflow-hidden border border-[#F4EFE4]/40 bg-[#E9E3D5] p-2 shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
+              className="paper relative max-h-full max-w-full overflow-hidden p-3 shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
+              style={paperVars(`lightbox-${street.id}`, { tone: '#E9E3D5', deckle: 'md', tilt: false })}
               onClick={(event) => event.stopPropagation()}
             >
+              <PaperSheet />
               <img src={photoUrl(street.id, Math.min(photoIndex, photos.length - 1))} alt={`${street.name} 放大照片`} className="max-h-[82vh] max-w-[88vw] object-contain" />
               <figcaption className="flex items-center justify-between px-1 pt-2 font-mono text-[9px] tracking-[0.18em] text-[#3A372F]">
                 <span>{street.name}</span>
@@ -115,8 +117,10 @@ export function ArchiveCard({
               <button
                 onClick={() => setZoomed(false)}
                 aria-label="关闭放大照片"
-                className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center border border-[#F4EFE4]/60 bg-[#141310]/65 text-[#F4EFE4] transition-colors hover:bg-[#8B2F2F]"
+                className="paper paper--dark absolute right-3 top-3 flex h-8 w-8 items-center justify-center text-[#F4EFE4] transition-colors hover:text-[#B89B67]"
+                style={paperVars(`lightbox-close-${street.id}`, { tone: '#2E261C', deckle: 'sm', tilt: false })}
               >
+                <PaperSheet />
                 ×
               </button>
             </motion.figure>
@@ -245,8 +249,10 @@ function CardInner({
             <button
               onClick={onZoom}
               aria-label="放大当前照片"
-              className="group absolute right-3 top-3 flex h-9 w-9 items-center justify-center border border-[#F4EFE4]/70 bg-[#141310]/65 text-[#F4EFE4] shadow-[0_3px_12px_rgba(27,27,27,0.25)] transition-all hover:scale-105 hover:bg-[#8B2F2F]"
+              className="paper paper--dark group absolute right-3 top-3 flex h-9 w-9 items-center justify-center text-[#F4EFE4] shadow-[0_3px_12px_rgba(27,27,27,0.25)] transition-all hover:scale-105 hover:text-[#B89B67]"
+              style={paperVars(`card-zoom-${street.id}`, { tone: '#2E261C', deckle: 'sm', tilt: false })}
             >
+              <PaperSheet />
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
                 <path d="M6.5 2.5H2.5v4M9.5 13.5h4v-4M2.5 6.5l4-4M13.5 9.5l-4 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
               </svg>
