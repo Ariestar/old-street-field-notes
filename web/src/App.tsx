@@ -54,20 +54,25 @@ export default function App() {
     mapRef.current?.flyTo({ center: s.coord, zoom: Math.max(mapRef.current.getZoom(), 10.4), duration: 1400, curve: 1.3 });
   }, []);
 
-  // ---------- 悬停 tooltip 跟踪 ----------
+  // ---------- 悬停 tooltip 跟踪（事件驱动，避免逐帧 RAF 造成多余渲染开销） ----------
   useEffect(() => {
-    if (!map) return;
-    let raf = 0;
+    if (!map || !hoverId) {
+      setTooltipPos(null);
+      return;
+    }
     const update = () => {
-      if (hoverId) {
-        const s = streetById(hoverId);
-        const p = map.project(s.coord as [number, number]);
-        setTooltipPos({ x: p.x, y: p.y });
-      }
-      raf = requestAnimationFrame(update);
+      const s = streetById(hoverId);
+      const p = map.project(s.coord as [number, number]);
+      setTooltipPos((prev) => {
+        if (prev && Math.abs(prev.x - p.x) < 0.5 && Math.abs(prev.y - p.y) < 0.5) return prev;
+        return { x: p.x, y: p.y };
+      });
     };
-    if (hoverId) raf = requestAnimationFrame(update);
-    return () => cancelAnimationFrame(raf);
+    update();
+    map.on('move', update);
+    return () => {
+      map.off('move', update);
+    };
   }, [map, hoverId]);
 
   // ---------- 首屏：地图是主角；翻过首屏后地图退回背景 ----------

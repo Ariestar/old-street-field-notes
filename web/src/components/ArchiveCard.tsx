@@ -34,6 +34,14 @@ export function ArchiveCard({
   onPhotoIndex: (i: number) => void;
 }) {
   const [zoomed, setZoomed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const syncMobile = () => setIsMobile(window.innerWidth < 768);
+    syncMobile();
+    window.addEventListener('resize', syncMobile);
+    return () => window.removeEventListener('resize', syncMobile);
+  }, []);
 
   useEffect(() => {
     setZoomed(false);
@@ -64,15 +72,15 @@ export function ArchiveCard({
             />
             <motion.aside
               key={street.id}
-              initial={{ x: '102%', opacity: 0.4 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: '102%', opacity: 0.4 }}
+              initial={isMobile ? { y: '100%', opacity: 0.6 } : { x: '102%', opacity: 0.4 }}
+              animate={isMobile ? { y: 0, opacity: 1 } : { x: 0, opacity: 1 }}
+              exit={isMobile ? { y: '100%', opacity: 0.4 } : { x: '102%', opacity: 0.4 }}
               transition={{ duration: DUR.base, ease: EASE_STANDARD }}
-              className="paper fixed bottom-4 right-4 top-[72px] z-30 flex w-full max-w-[520px] flex-col max-md:bottom-2 max-md:left-2 max-md:right-2 max-md:top-auto max-md:max-h-[72dvh] max-md:max-w-none"
+              className="paper fixed bottom-4 right-4 top-[72px] z-30 flex w-full max-w-[520px] flex-col overflow-hidden max-md:bottom-2 max-md:left-2 max-md:right-2 max-md:top-auto max-md:h-[75dvh] max-md:max-h-[75dvh] max-md:max-w-none"
               style={paperVars(`card-${street.id}`, { deckle: 'lg' })}
             >
               <motion.div
-                className="flex h-full flex-col"
+                className="flex h-full min-h-0 flex-col overflow-hidden"
                 variants={paperGroup}
                 initial="hidden"
                 animate="shown"
@@ -182,11 +190,16 @@ function CardInner({
   }, [i, n, street.id]);
 
   return (
-    <div className="flex h-full flex-col overflow-hidden">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden">
+      {/* ── 移动端抽屉拉手指示条 ── */}
+      <div className="hidden max-md:flex shrink-0 items-center justify-center pt-2.5 pb-1">
+        <div className="h-1 w-10 rounded-full bg-[#B8B0A0]" />
+      </div>
+
       {/* ── 头部：编号 + 标题 ── */}
       <motion.header
         variants={contentIn}
-        className="relative shrink-0 border-b border-[#CBC3B4] px-7 pb-5 pt-6 max-md:px-5 max-md:pt-4"
+        className="relative shrink-0 border-b border-[#CBC3B4] px-7 pb-5 pt-6 max-md:px-5 max-md:pt-1 max-md:pb-3"
       >
         <div className="flex items-start justify-between">
           <div className="flex items-baseline gap-4">
@@ -229,7 +242,7 @@ function CardInner({
       </motion.header>
 
       {/* ── 主体 ── */}
-      <div className="flex-1 overflow-y-auto overscroll-contain px-7 pb-6 max-md:px-5">
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-7 pb-6 max-md:px-5 touch-pan-y">
         {/* 定位句 */}
         <motion.p
           variants={contentIn}

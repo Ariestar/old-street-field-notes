@@ -128,10 +128,9 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 90;
-  opacity: 0.05;
+  opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 240px 240px;
-  mix-blend-mode: multiply;
 }
 
 /* ---- 纸：全站唯一的纸原语 ----
@@ -176,6 +175,14 @@ body {
        framer-motion 会写内联 transform，用 transform 会被它整个覆盖掉 */
     filter: var(--deckle, none);
     rotate: var(--paper-tilt, 0deg);
+  }
+
+  /* 移动端性能优化：禁用高 CPU/GPU 负载的 SVG 实时位移滤镜，保留真实纤维材质底色与阴影，实现极致丝滑的 60fps 滑动 */
+  @media (max-width: 768px) {
+    .paper__sheet {
+      filter: none !important;
+      background-image: url("../assets/paper/card-1.webp");
+    }
   }
 
   /* 深色纸片：贴在深色卡纸上的那一类。
