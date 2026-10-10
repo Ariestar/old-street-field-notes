@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:cf": "pnpm build && wrangler pages deploy dist --project-name old-street-field-notes --branch main"
   },
   "dependencies": {
     "framer-motion": "^12.23.0",
