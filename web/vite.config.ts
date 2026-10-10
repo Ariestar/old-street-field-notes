@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  // GitHub Pages 项目站路径：https://ariestar.github.io/old-street-field-notes/
-  base: '/old-street-field-notes/',
+  // 兼容根域名部署（如 EdgeOne Pages）与 GitHub Pages 子路径
+  base: process.env.BASE_PATH ?? '/',
   plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {

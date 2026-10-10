@@ -37,6 +37,8 @@ jobs:
       - name: Build
         working-directory: web
         run: pnpm build
+        env:
+          BASE_PATH: /old-street-field-notes/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
