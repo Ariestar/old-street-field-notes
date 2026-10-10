@@ -14,6 +14,7 @@ export interface MapLayersProps {
   hoverId: string | null;
   onNodeClick: (id: string) => void;
   onNodeHover: (id: string | null) => void;
+  onBlankClick?: () => void;
 }
 
 const NODE_SRC = 'streets-nodes';
@@ -25,6 +26,7 @@ export function MapLayers({
   hoverId,
   onNodeClick,
   onNodeHover,
+  onBlankClick,
 }: MapLayersProps) {
   const hoveredFeatureRef = useRef<number | null>(null);
 
@@ -130,7 +132,11 @@ export function MapLayers({
     };
     const onClick = (e: maplibregl.MapMouseEvent) => {
       const id = pickAt(e.point.x, e.point.y);
-      if (id) onNodeClick(id);
+      if (id) {
+        onNodeClick(id);
+      } else {
+        onBlankClick?.();
+      }
     };
     let lastHover: string | null | undefined;
     const onMove = (e: maplibregl.MapMouseEvent) => {

@@ -55,35 +55,43 @@ export function ArchiveCard({
     <>
       <AnimatePresence mode="wait">
         {street && (
-          <motion.aside
-            key={street.id}
-            initial={{ x: '102%', opacity: 0.4 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '102%', opacity: 0.4 }}
-            transition={{ duration: DUR.slow, ease: EASE_STANDARD }}
-            className="paper fixed bottom-4 right-4 top-[72px] z-30 flex w-full max-w-[520px] flex-col max-md:bottom-2 max-md:left-2 max-md:right-2 max-md:top-auto max-md:max-h-[72dvh] max-md:max-w-none"
-            style={paperVars(`card-${street.id}`, { deckle: 'lg' })}
-          >
-            <motion.div
-              className="flex h-full flex-col"
-              variants={paperGroup}
-              initial="hidden"
-              animate="shown"
+          <>
+            {/* 移动端点击背景空白处收起卡片 */}
+            <div
+              className="fixed inset-0 z-20 hidden bg-black/15 backdrop-blur-[1px] max-md:block"
+              onClick={onClose}
+              aria-hidden="true"
+            />
+            <motion.aside
+              key={street.id}
+              initial={{ x: '102%', opacity: 0.4 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '102%', opacity: 0.4 }}
+              transition={{ duration: DUR.base, ease: EASE_STANDARD }}
+              className="paper fixed bottom-4 right-4 top-[72px] z-30 flex w-full max-w-[520px] flex-col max-md:bottom-2 max-md:left-2 max-md:right-2 max-md:top-auto max-md:max-h-[72dvh] max-md:max-w-none"
+              style={paperVars(`card-${street.id}`, { deckle: 'lg' })}
             >
-              <PaperSheet />
-              <CardInner
-                street={street}
-                onClose={onClose}
-                onPrev={onPrev}
-                onNext={onNext}
-                index={index}
-                total={total}
-                photoIndex={photoIndex}
-                onPhotoIndex={onPhotoIndex}
-                onZoom={() => setZoomed(true)}
-              />
-            </motion.div>
-          </motion.aside>
+              <motion.div
+                className="flex h-full flex-col"
+                variants={paperGroup}
+                initial="hidden"
+                animate="shown"
+              >
+                <PaperSheet />
+                <CardInner
+                  street={street}
+                  onClose={onClose}
+                  onPrev={onPrev}
+                  onNext={onNext}
+                  index={index}
+                  total={total}
+                  photoIndex={photoIndex}
+                  onPhotoIndex={onPhotoIndex}
+                  onZoom={() => setZoomed(true)}
+                />
+              </motion.div>
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
 
@@ -174,7 +182,7 @@ function CardInner({
   }, [i, n, street.id]);
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto">
+    <div className="flex h-full flex-col overflow-hidden">
       {/* ── 头部：编号 + 标题 ── */}
       <motion.header
         variants={contentIn}
@@ -221,7 +229,7 @@ function CardInner({
       </motion.header>
 
       {/* ── 主体 ── */}
-      <div className="flex-1 overflow-y-auto px-7 pb-6 max-md:px-5">
+      <div className="flex-1 overflow-y-auto overscroll-contain px-7 pb-6 max-md:px-5">
         {/* 定位句 */}
         <motion.p
           variants={contentIn}

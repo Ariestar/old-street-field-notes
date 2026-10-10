@@ -76,7 +76,7 @@ export default function App() {
   // 一旦往下翻过首屏，就交还给页面，让滚轮正常翻页。
   const [atHero, setAtHero] = useState(true);
   useEffect(() => {
-    const sync = () => setAtHero(window.scrollY < window.innerHeight * 0.6);
+    const sync = () => setAtHero(window.scrollY < window.innerHeight * 0.5);
     sync();
     window.addEventListener('scroll', sync, { passive: true });
     window.addEventListener('resize', sync);
@@ -85,6 +85,20 @@ export default function App() {
       window.removeEventListener('resize', sync);
     };
   }, []);
+
+  // 向下滚动离开地图首屏时，自动收起详情卡，根源杜绝悬浮卡遮挡下方页面与手势冲突
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      if (currentY > 80 && currentY > lastY && selectedId) {
+        setSelectedId(null);
+      }
+      lastY = currentY;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [selectedId]);
 
   useEffect(() => {
     if (!map) return;
@@ -98,6 +112,7 @@ export default function App() {
   }, [map, atHero]);
 
   const goToArchive = useCallback(() => {
+    setSelectedId(null);
     document.getElementById('archive')?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
@@ -198,6 +213,9 @@ export default function App() {
         map={map}
         onReset={resetView}
         onNavigate={(target) => {
+          if (target !== 'map' && target !== 'top') {
+            setSelectedId(null);
+          }
           if (target === 'map') {
             sectionMapRef.current?.scrollIntoView({ behavior: 'smooth' });
           } else {
@@ -218,6 +236,7 @@ export default function App() {
               hoverId={hoverId}
               onNodeClick={handleNodeClick}
               onNodeHover={setHoverId}
+              onBlankClick={() => setSelectedId(null)}
             />
             {/* 地图控件：地图控件常显（画卷覆盖在上，不拦截地图交互） */}
             <div
@@ -258,9 +277,9 @@ export default function App() {
         <Closing onBackToMap={backToMap} />
       </div>
 
-      {/* ── 档案卡（桌面右侧 / 移动底部） ── */}
+      {/* ── 档案卡（仅在首屏地图可见，离开首屏时自动退出） ── */}
       <ArchiveCard
-        street={selectedId ? streetById(selectedId) : null}
+        street={atHero && selectedId ? streetById(selectedId) : null}
         onClose={() => setSelectedId(null)}
         onPrev={() => gotoNeighbor(-1)}
         onNext={() => gotoNeighbor(1)}
